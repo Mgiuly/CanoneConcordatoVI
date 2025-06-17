@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolo Canone Concordato - Provincia di Vicenza</title>
+    <style>
+        /* --- Enhanced Aesthetics --- */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            background-color: #f8f9fa; /* Lighter grey */
+            color: #444; /* Darker text */
+            padding: 20px;
+        }
+        .container {
+            max-width: 850px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid #0056b3; /* Accent color */
+        }
+        h1 {
+           color: #0056b3;
+           text-align: center;
+           margin-bottom: 15px;
+           font-weight: 700;
+           border-bottom: 1px solid #eee;
+           padding-bottom: 15px;
+        }
+        h2 {
+            color: #333;
+            text-align: left; /* Changed for section headers */
+            margin-top: 30px; /* More space before sections */
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.3em;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 8px;
+         }
+        .form-group {
+            margin-bottom: 22px; /* Increased spacing */
+            padding-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px; /* Increased spacing */
+            font-weight: 700; /* Bolder labels */
+            font-size: 0.95em;
+            color: #555;
+        }
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px; /* Larger inputs */
+            border: 1px solid #ced4da; /* Softer border */
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2); /* Focus ring */
+            outline: none;
+        }
+         input[type="checkbox"], input[type="radio"] {
+            margin-right: 8px;
+            transform: scale(1.1); /* Slightly larger radios/checkboxes */
+         }
+        .checkbox-group label, .radio-group label {
+            font-weight: 400; /* Normal weight for options */
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 8px; /* Spacing for wrapped items */
+            cursor: pointer;
+        }
+         .checkbox-group { line-height: 1.8; } /* Better spacing for checkboxes */
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 10px; /* Space between buttons */
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1 1 auto; /* Allow buttons to grow/shrink */
+            min-width: 200px; /* Minimum width before wrapping */
+            padding: 14px 15px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.05em; /* Slightly adjusted */
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #004494;
+            transform: translateY(-1px);
+        }
+         button:active {
+             transform: translateY(0px);
+         }
+         /* Specific color for download button */
+         button.download-btn {
+            background-color: #28a745; /* Green */
+         }
+         button.download-btn:hover {
+             background-color: #218838; /* Darker Green */
+         }
+
+
+        #risultati {
+            margin-top: 35px;
+            padding: 25px;
+            background-color: #eef5fc; /* Lighter blue */
+            border: 1px solid #cce0f5; /* Medium blue border */
+            border-radius: 8px;
+        }
+        #risultati h2 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.4em;
+             border-bottom: 1px solid #cce0f5;
+             padding-bottom: 12px;
+             margin-bottom: 20px;
+        }
+         #risultati p {
+            margin: 10px 0;
+            font-size: 1em;
+            padding-bottom: 5px;
+            border-bottom: 1px dotted #ddd; /* Subtle separator */
+         }
+         #risultati p:last-child { border-bottom: none; }
+
+         #risultati strong {
+             color: #333;
+             display: inline-block;
+             min-width: 280px; /* Align values */
+         }
+         #risultati .final-result {
+             font-size: 1.3em;
+             font-weight: 700;
+             color: #1a7431; /* Green for final result */
+             border-top: 2px solid #cce0f5;
+             padding-top: 15px;
+             margin-top: 15px;
+             border-bottom: none;
+         }
+         #risultati .final-result span { font-weight: 700; }
+
+        .warning {
+            color: #856404; /* Dark yellow/brown */
+            font-weight: normal; /* Less aggressive */
+            background-color: #fff3cd; /* Light yellow */
+            padding: 15px;
+            border: 1px solid #ffeeba; /* Yellow border */
+            border-radius: 5px;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+        .info {
+            font-size: 0.9em;
+            color: #6c757d; /* Bootstrap secondary color */
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+         #thiene-details {
+             padding: 15px;
+             margin-top: 15px;
+             background-color: #f1f3f5; /* Very light grey */
+             border-radius: 5px;
+             border: 1px solid #e9ecef;
+         }
+
+         /* Styles for Word Output Section (kept for copy/paste option) */
+         #word-output {
+             margin-top: 40px;
+             padding: 30px;
+             background-color: #fdfdfd;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+             font-family: 'Times New Roman', Times, serif;
+             font-size: 12pt;
+             line-height: 1.5;
+         }
+          #word-output h2 {
+             font-size: 14pt;
+             text-align: center;
+             margin-bottom: 20px;
+             color: #000;
+             border-bottom: 1px solid #000;
+             padding-bottom: 5px;
+             font-weight: bold;
+         }
+         #word-output h3 {
+             font-size: 12pt;
+             font-weight: bold;
+             margin-top: 20px;
+             margin-bottom: 10px;
+         }
+         #word-output p {
+             margin-bottom: 10px;
+             text-align: justify;
+         }
+         #word-output table {
+             width: 100%;
+             border-collapse: collapse;
+             margin: 15px 0;
+             font-size: 11pt;
+         }
+         #word-output th, #word-output td {
+             border: 1px solid #ccc;
+             padding: 6px 8px;
+             text-align: left;
+         }
+          #word-output th {
+              background-color: #f2f2f2;
+              font-weight: bold;
+          }
+         #word-output .placeholder {
+             font-weight: bold;
+             color: #0056b3; /* Highlight calculated fields */
+         }
+         #word-output .fill-in {
+             display: inline-block;
+             min-width: 150px; /* Space for manual input */
+             border-bottom: 1px dotted #000;
+             margin: 0 5px;
+             text-align: center;
+             color: #777;
+             font-style: italic;
+             font-size: 10pt;
+             line-height: 1.2;
+         }
+         #word-output .small-fill-in { min-width: 50px; }
+         #word-output .sig-line {
+            display: inline-block;
+            width: 250px;
+            border-top: 1px solid #000;
+            margin-top: 40px;
+            text-align: center;
+         }
+          #word-output .footer-note {
+              font-size: 9pt;
+              color: #555;
+              text-align: center;
+              margin-top: 20px;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calcolatore Canone Concordato</h1>
+        <p class="info" style="text-align:center;">Provincia di Vicenza - Accordo Territoriale 03/04/2019 (DM 16/01/2017)</p>
+
+        <p class="warning">ATTENZIONE: I valori minimi e massimi (€/mq) delle fasce di oscillazione sono basati sulla tabella "ALL. 1" a pagina 13 del documento fornito. Si noti che tale tabella non differenzia esplicitamente per popolazione (<10k/>10k) per la maggior parte delle zone (ad eccezione di Thiene). Si raccomanda comunque una verifica con le organizzazioni firmatarie per la conferma definitiva dei valori applicabili.</p>
+
+        <form id="calcolo-form">
+            <h2>Dati Immobile e Contratto</h2>
+            <!-- Form fields remain the same -->
+            <div class="form-group">
+                <label for="comune">Comune:</label>
+                <select id="comune" name="comune" required>
+                    <option value="">-- Seleziona Comune --</option>
+                </select>
+                <div id="thiene-details" class="hidden">
+                    <label>Posizione a Thiene:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="thiene_pos" value="centro" checked> Centro</label>
+                        <label><input type="radio" name="thiene_pos" value="periferia"> Periferia</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                 <label for="tipo_contratto">Tipo di Contratto:</label>
+                 <select id="tipo_contratto" name="tipo_contratto">
+                     <option value="agevolato">Agevolato (3+2 / 4+2 / ecc.)</option>
+                     <option value="transitorio">Transitorio Ordinario (max 18 mesi)</option>
+                     <option value="studenti">Transitorio Studenti (6 mesi - 3 anni)</option>
+                 </select>
+             </div>
+             <div class="form-group">
+                <label>Superfici (mq):</label>
+                <input type="number" id="sup_calpestabile" placeholder="Superficie Calpestabile Appartamento" required step="0.01" min="1">
+                <input type="number" id="sup_autorimessa" placeholder="Autorimessa Esclusiva (opz.)" step="0.01" min="0" style="margin-top: 5px;">
+                <input type="number" id="sup_posto_auto_comune" placeholder="Posto Auto Comune (opz.)" step="0.01" min="0" style="margin-top: 5px;">
+                <input type="number" id="sup_balconi" placeholder="Balconi, Terrazze, Cantine (opz.)" step="0.01" min="0" style="margin-top: 5px;">
+                <input type="number" id="sup_scoperta" placeholder="Area Scoperta Esclusiva (opz.)" step="0.01" min="0" style="margin-top: 5px;">
+                <input type="number" id="sup_verde_cond" placeholder="Quota Verde Condominiale (opz.)" step="0.01" min="0" style="margin-top: 5px;">
+                 <p class="info">Inserire la superficie calpestabile e le eventuali pertinenze. Il calcolo applicherà le percentuali corrette (All. 3).</p>
+            </div>
+
+            <h2>Caratteristiche Immobile (Allegato 2)</h2>
+             <div class="form-group">
+                <label>Tipologia Edilizia:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="tipologia" value="casa" checked> Casa singola/bifamiliare/schiera (3 punti)</label>
+                    <label><input type="radio" name="tipologia" value="<=14"> Stabile fino a 14 alloggi (2 punti)</label>
+                    <label><input type="radio" name="tipologia" value=">14"> Stabile con più di 14 alloggi (1 punto)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Anno Fabbricazione / Ristrutturazione Integrale:</label>
+                 <div class="radio-group">
+                    <label><input type="radio" name="anno_costruzione" value="0-15" checked> 0-15 anni (2 punti)</label>
+                    <label><input type="radio" name="anno_costruzione" value="16-35"> 16-35 anni (1 punto)</label>
+                    <label><input type="radio" name="anno_costruzione" value=">35"> Oltre 35 anni (0 punti)</label>
+                </div>
+            </div>
+             <div class="form-group">
+                 <label>Accessori e Servizi Tecnici in Dotazione (max 12):</label>
+                 <div class="checkbox-group">
+                     <label><input type="checkbox" name="accessori" value="posto_auto_coperto"> a. Posto auto coperto/garage</label><br>
+                     <label><input type="checkbox" name="accessori" value="posto_auto_scoperto"> b. Posto auto scoperto esclusivo</label><br>
+                     <label><input type="checkbox" name="accessori" value="doppi_servizi"> c. Doppi servizi</label><br>
+                     <label><input type="checkbox" name="accessori" value="soffitta_cantina"> d. Soffitta o cantina</label><br>
+                     <label><input type="checkbox" name="accessori" value="condizionamento"> e. Impianto raffreddamento/condizionamento</label><br>
+                     <label><input type="checkbox" name="accessori" value="ascensore"> f. Ascensore</label><br>
+                     <label><input type="checkbox" name="accessori" value="elettrodomestici_a_plus"> g. Elettrodomestici A+ (se semi/arredato)</label><br>
+                     <label><input type="checkbox" name="accessori" value="sicurezza_antintrusione"> h. Sistema sicurezza/antintrusione (o porta blindata)</label><br>
+                     <label><input type="checkbox" name="accessori" value="cancello_elettrico"> i. Cancello o basculante elettrico</label><br>
+                     <label><input type="checkbox" name="accessori" value="videocitofono"> j. Videocitofono/predisp. internet</label><br>
+                     <label><input type="checkbox" name="accessori" value="terrazza_5mq"> k. Terrazza/e >= 5 mq complessivi</label><br>
+                     <label><input type="checkbox" name="accessori" value="doppi_vetri"> l. Doppi vetri o vetrocamera</label><br>
+                 </div>
+                  <p class="info">Selezionare le dotazioni presenti. Il punteggio varia da 0 (0 acc.) a 5 (10+ acc.).</p>
+             </div>
+
+            <h2>Opzioni Aggiuntive</h2>
+             <div id="agevolato-options" class="form-group hidden">
+                 <label>Opzioni Contratto Agevolato:</label>
+                  <label for="durata_contratto">Durata Contrattuale Aggiuntiva (oltre 3 anni base):</label>
+                  <select id="durata_contratto" name="durata_contratto">
+                     <option value="0">Nessuna / 3 anni (0%)</option>
+                     <option value="1">4 anni (+2%)</option>
+                     <option value="2">5 anni (+3%)</option>
+                     <option value="3">6+ anni (+4%)</option>
+                 </select>
+             </div>
+            <div class="form-group">
+                 <label for="arredo">Livello Arredamento:</label>
+                 <select id="arredo" name="arredo">
+                     <option value="non_arredato">Non Arredato (0%)</option>
+                     <option value="semi_arredato">Semi Arredato (+5%)</option>
+                     <option value="completo_recente">Completo Nuovo/Recente (0-5 anni) (+15%)</option>
+                     <option value="completo_medio">Completo (6-10 anni) (+10%)</option>
+                     <option value="completo_vecchio">Completo (>11 anni) (+5%)</option>
+                 </select>
+                 <p class="info">Per Studenti: richiede dotazione minima specifica (vedi Accordo, Titolo C, p.8). L'aumento si applica se arredato.</p>
+             </div>
+             <div class="form-group">
+                <label>Immobile di Cat. A/1, A/8, A/9? (Art. 1 c.2a L.431/98)</label>
+                <div class="radio-group">
+                     <label><input type="radio" name="cat_lusso" value="no" checked> No (0%)</label>
+                     <label><input type="radio" name="cat_lusso" value="yes"> Sì (+2%)</label>
+                 </div>
+             </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="button" onclick="calcolaCanone()">Calcola Fascia Canone</button>
+                <button type="button" onclick="generaAttestazione()">Mostra Attestazione (per Copia/Incolla)</button>
+                <button type="button" class="download-btn" onclick="scaricaHTML()">Scarica Attestazione (.html)</button>
+            </div>
+        </form>
+
+        <!-- Risultati Calcolo -->
+        <div id="risultati" style="display: none;">
+           <!-- Results content remains the same -->
+            <h2>Risultati Calcolo Fascia Canone</h2>
+            <p><strong>Comune Selezionato:</strong> <span id="res-comune"></span></p>
+            <p><strong>Zona Territoriale:</strong> <span id="res-zona"></span> (<span id="res-pop"></span>)</p>
+            <p><strong>Superficie Utile Calcolata (mq):</strong> <span id="res-sup-utile"></span></p>
+            <p><strong>Coefficiente Area (x Superficie):</strong> <span id="res-coeff-area"></span></p>
+            <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p><strong>Punteggio Tipologia Edilizia:</strong> <span id="res-punti-tipo"></span> pt.</p>
+            <p><strong>Punteggio Anno Costruzione:</strong> <span id="res-punti-anno"></span> pt.</p>
+            <p><strong>Numero Accessori Selezionati:</strong> <span id="res-num-accessori"></span></p>
+            <p><strong>Punteggio Accessori:</strong> <span id="res-punti-accessori"></span> pt.</p>
+            <p><strong>PUNTEGGIO TOTALE:</strong> <span id="res-punti-totali"></span> pt.</p>
+            <p><strong>Categoria Risultante (Allegato 2):</strong> <span id="res-categoria" style="font-weight:bold;"></span></p>
+             <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p><strong>Fascia €/mq Base (da Tabella All. 1):</strong> Min: <span id="res-fascia-min"></span> €/mq - Max: <span id="res-fascia-max"></span> €/mq</p>
+            <p><strong>Canone Mensile Base Stimato:</strong> Min: <span id="res-canone-base-min"></span> € - Max: <span id="res-canone-base-max"></span> €</p>
+             <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p><strong>Adeguamento Contratto Transitorio (>10k ab.):</strong> <span id="res-adeg-trans"></span>%</p>
+            <p><strong>Adeguamento Durata Contratto Agevolato:</strong> <span id="res-adeg-durata"></span>%</p>
+            <p><strong>Adeguamento Arredamento:</strong> <span id="res-adeg-arredo"></span>%</p>
+            <p><strong>Adeguamento Cat. Lusso (A/1, A/8, A/9):</strong> <span id="res-adeg-lusso"></span>%</p>
+            <p><strong>Fattore Moltiplicativo Totale Adeguamenti:</strong> <span id="res-adeg-totale"></span></p>
+
+            <p class="final-result">
+                CANONE MENSILE CONCORDATO FINALE STIMATO:
+                Min: <span id="res-canone-finale-min"></span> € - Max: <span id="res-canone-finale-max"></span> €
+            </p>
+            <p class="info" style="border:none; padding-top: 5px;">Il canone effettivo dovrà essere concordato tra le parti all'interno di questa fascia finale.</p>
+        </div>
+
+        <!-- Word Output Section for Copy/Paste -->
+        <div id="word-output" style="display:none;">
+            <!-- Content remains the same -->
+            <h2>ATTESTAZIONE DI RISPONDENZA EX D.M. 16/1/2017</h2>
+            <p style="text-align: center; margin-bottom: 25px;">(Modello Allegato 3 - Accordo Territoriale Vicenza)</p>
+
+            <p>L'Organizzazione <span class="fill-in">Nome Organizzazione</span> firmataria dell'Accordo territoriale per il Comune di Vicenza, depositato il <span class="fill-in small-fill-in">Data Dep.</span> in persona di <span class="fill-in">Nome Rappresentante</span></p>
+
+            <h3>PREMESSO CHE</h3>
+            <p>il Sig. <span class="fill-in">Nome Locatore/Conduttore</span> C.F.: <span class="fill-in">C.F. Locatore/Conduttore</span> residente a <span class="fill-in">Indirizzo Residenza</span> in Via/P.za <span class="fill-in">Via/P.za Residenza</span> n. <span class="fill-in small-fill-in">Civico</span>
+            nella qualità di locatore/conduttore dell'immobile/porzione di immobile sito a <span class="placeholder" id="word-res-comune">[Comune]</span> in Via/P.za <span class="fill-in">Via Immobile</span> n. <span class="fill-in small-fill-in">Civico Imm.</span> piano <span class="fill-in small-fill-in">Piano</span> int. <span class="fill-in small-fill-in">Interno</span> con contratto stipulato con il Sig. <span class="fill-in">Nome Controparte</span> C.F.: <span class="fill-in">C.F. Controparte</span> residente a <span class="fill-in">Indirizzo Res. Controparte</span> in Via/P.za <span class="fill-in">Via/P.za Res. Contr.</span> n. <span class="fill-in small-fill-in">Civico Res. Contr.</span> il <span class="fill-in small-fill-in">Data Stipula</span>
+            decorrenza il <span class="fill-in small-fill-in">Data Decorrenza</span> registrato il <span class="fill-in small-fill-in">Data Reg.</span> al n. <span class="fill-in">Num. Reg.</span> presso l'Agenzia delle entrate <span class="fill-in">Ufficio AdE</span> /in corso di registrazione, essendo i termini non ancora scaduti, ha presentato richiesta per l'attestazione ex D.M. 16/1/2017, dichiarando, sotto la sua responsabilità, i seguenti elementi:</p>
+            <p style="text-align: center; font-style:italic; margin-bottom: 15px;">(A SOLO TITOLO ESEMPLIFICATIVO)</p>
+
+            <h3>CALCOLO DELLA SUPERFICIE ai sensi dell'Accordo territoriale</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Mq. Lordi</th>
+                        <th>% Applicata</th>
+                        <th>Coefficiente Area</th>
+                        <th>Mq. Utili Calcolati</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Superficie calpestabile appartamento</td>
+                        <td><span class="placeholder" id="word-sup-calp"></span></td>
+                        <td>100%</td>
+                        <td rowspan="6" style="vertical-align: middle; text-align:center;"><span class="placeholder" id="word-coeff-area">[Coeff]</span></td>
+                         <td><span class="placeholder" id="word-mq-calp"></span></td>
+                    </tr>
+                     <tr>
+                         <td>Autorimessa singola</td>
+                         <td><span class="placeholder" id="word-sup-garage"></span></td>
+                         <td>50%</td>
+                          <td><span class="placeholder" id="word-mq-garage"></span></td>
+                     </tr>
+                     <tr>
+                         <td>Posto macchina in comune</td>
+                          <td><span class="placeholder" id="word-sup-pauto"></span></td>
+                         <td>20%</td>
+                          <td><span class="placeholder" id="word-mq-pauto"></span></td>
+                     </tr>
+                     <tr>
+                         <td>Balconi, terrazze, cantine e simili</td>
+                          <td><span class="placeholder" id="word-sup-balconi"></span></td>
+                         <td>25%</td>
+                          <td><span class="placeholder" id="word-mq-balconi"></span></td>
+                     </tr>
+                     <tr>
+                         <td>Superficie scoperta in godimento esclusivo</td>
+                          <td><span class="placeholder" id="word-sup-scoperta"></span></td>
+                         <td>15%</td>
+                          <td><span class="placeholder" id="word-mq-scoperta"></span></td>
+                     </tr>
+                      <tr>
+                         <td>Sup. a verde condominiale (quota MM)</td>
+                          <td><span class="placeholder" id="word-sup-verde"></span></td>
+                         <td>10%</td>
+                          <td><span class="placeholder" id="word-mq-verde"></span></td>
+                     </tr>
+                     <tr>
+                         <td colspan="4" style="text-align:right; font-weight:bold;">TOTALE SUPERFICIE UTILE (mq)</td>
+                         <td style="font-weight:bold;"><span class="placeholder" id="word-mq-totale">[TotMq]</span></td>
+                     </tr>
+                </tbody>
+            </table>
+
+             <h3>ELEMENTI E PARAMETRI OGGETTIVI</h3>
+             <p>Tipologia Edilizia: <span class="placeholder" id="word-tipo-edilizia">[Tipo]</span> (<span class="placeholder" id="word-punti-tipo">[Pti]</span> punti)</p>
+             <p>Anno di fabbricazione / ristrutturazione integrale / restauro: <span class="placeholder" id="word-anno-costr">[Anno Range]</span> (<span class="placeholder" id="word-punti-anno">[Pti]</span> punti)</p>
+             <p>Accessori e servizi tecnici in dotazione (numero parametri): <span class="placeholder" id="word-num-accessori">[Num]</span> (<span class="placeholder" id="word-punti-accessori">[Pti]</span> punti)</p>
+             <p style="margin-top: 10px;">PUNTEGGIO TOTALE: <span class="placeholder" id="word-punti-totali">[TOT Pti]</span> punti</p>
+
+             <h3>ZONA TERRITORIALE E FASCIA DI OSCILLAZIONE</h3>
+             <p>ZONA: <span class="placeholder" id="word-zona">[Zona Accordo]</span></p>
+             <p>FASCIA DI OSCILLAZIONE MIN/MAX (Allegato 1): Min. € <span class="placeholder" id="word-fascia-min-mq">[Min €/mq]</span>/mq - Max. € <span class="placeholder" id="word-fascia-max-mq">[Max €/mq]</span>/mq</p>
+             <p>ELEMENTI E PARAMETRI n. <span class="placeholder" id="word-punti-totali-2">[TOT Pti]</span>; punteggio totale n. <span class="placeholder" id="word-punti-totali-3">[TOT Pti]</span>; SUBFASCIA (Categoria): <span class="placeholder" id="word-categoria">[Categoria]</span></p>
+             <p>Valore applicato €/mq: (compreso tra <span class="placeholder" id="word-fascia-min-mq-2">[Min €/mq]</span> e <span class="placeholder" id="word-fascia-max-mq-2">[Max €/mq]</span>)</p>
+             <p>CANONE concordato: mensili = € <span class="fill-in">Canone Concordato Effettivo</span> (annuo € <span class="fill-in">Canone Annuo Effettivo</span>)</p>
+             <p class="info" style="font-size: 10pt;">(Fascia calcolata prima degli adeguamenti: Min € <span class="placeholder" id="word-canone-base-min">[Min Base]</span> - Max € <span class="placeholder" id="word-canone-base-max">[Max Base]</span>. Fascia finale stimata con adeguamenti: Min € <span class="placeholder" id="word-canone-finale-min">[Min Finale]</span> - Max € <span class="placeholder" id="word-canone-finale-max">[Max Finale]</span>)</p>
+
+
+             <h3>ATTESTA</h3>
+             <p>Tutto ciò premesso, l'Organizzazione <span class="fill-in">Nome Organizzazione Ripetuto</span> come sopra rappresentata, sulla base degli elementi oggettivi sopra dichiarati, anche ai fini dell'ottenimento di eventuali agevolazioni fiscali, ATTESTA che i contenuti economici e normativi del contratto sopra descritto corrispondono a quanto previsto dall'Accordo territoriale vigente per il Comune di Vicenza, depositato in data <span class="fill-in small-fill-in">Data Dep. Ripetuta</span>.</p>
+
+             <div style="margin-top: 50px; display: flex; justify-content: space-between; padding: 0 50px;">
+                 <div>
+                     <p>Il dichiarante</p>
+                     <p class="sig-line"></p>
+                 </div>
+                 <div>
+                     <p>p. l'Organizzazione</p>
+                      <p class="sig-line"></p>
+                 </div>
+             </div>
+            <p class="footer-note">Questa attestazione generata automaticamente riporta i valori calcolati dallo strumento web. Le parti vuote sono da compilare manualmente.</p>
+        </div>
+
+
+    </div>
+
+    <script>
+        // --- DATI ---
+        const comuniData = [
+             // ...(Comuni data remains the same)...
+            { comune: "Agugliaro", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Albettone", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Asigliano Veneto", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Barbarano Mossano", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Campiglia dei Berici", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Cartigliano", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Castegnero", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Longare", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Montegalda", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Montegaldella", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Nanto", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Noventa Vicentina", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Orgiano", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Pojana Maggiore", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Sossano", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Val Liona", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Villaga", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Zovencedo", zona: "AZZURRA", popCat: "<10k" },
+            { comune: "Bolzano Vicentino", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Breganze", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Bressanvido", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Colceresa", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Grisignano di Zocco", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Grumolo delle Abbadesse", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Marano Vicentino", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Montecchio Precalcino", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Monticello Conte Otto", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Mussolente", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Nove", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Pianezze", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Pozzoleone", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Quinto Vicentino", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Rossano Veneto", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Sandrigo", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Santorso", zona: "GIALLA", popCat: "<10k" },
+            { comune: "San Vito di Leguzzano", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Sarcedo", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Schiavon", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Villaverla", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Zanè", zona: "GIALLA", popCat: "<10k" },
+            { comune: "Caldogno", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Camisano Vicentino", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Cassola", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Dueville", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Isola Vicentina", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Malo", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Marostica", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Romano d'Ezzelino", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Rosà", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Tezze sul Brenta", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Thiene", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Torri di Quartesolo", zona: "GIALLA", popCat: ">10k" },
+            { comune: "Alonte", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Altissimo", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Arcugnano", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Brendola", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Brogliano", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Castelgomberto", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Costabissara", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Crespadoro", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Gambellara", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Gambugliano", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Montebello Vicentino", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Monte di Malo", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Monteviale", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Montorso Vicentino", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Nogarole Vicentino", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Recoaro Terme", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "San Pietro Mussolino", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Sarego", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Sovizzo", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Trissino", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Zermeghedo", zona: "ARANCIONE", popCat: "<10k" },
+            { comune: "Altavilla Vicentina", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Arzignano", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Chiampo", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Cornedo Vicentino", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Creazzo", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Lonigo", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Montecchio Maggiore", zona: "ARANCIONE", popCat: ">10k" },
+            { comune: "Arsiero", zona: "VERDE", popCat: "<10k" },
+            { comune: "Caltrano", zona: "VERDE", popCat: "<10k" },
+            { comune: "Calvene", zona: "VERDE", popCat: "<10k" },
+            { comune: "Carrè", zona: "VERDE", popCat: "<10k" },
+            { comune: "Chiuppano", zona: "VERDE", popCat: "<10k" },
+            { comune: "Cogollo del Cengio", zona: "VERDE", popCat: "<10k" },
+            { comune: "Fara Vicentino", zona: "VERDE", popCat: "<10k" },
+            { comune: "Laghi", zona: "VERDE", popCat: "<10k" },
+            { comune: "Lastebasse", zona: "VERDE", popCat: "<10k" },
+            { comune: "Lugo di Vicenza", zona: "VERDE", popCat: "<10k" },
+            { comune: "Lusiana Conco", zona: "VERDE", popCat: "<10k" },
+            { comune: "Pedemonte", zona: "VERDE", popCat: "<10k" },
+            { comune: "Piovene Rocchette", zona: "VERDE", popCat: "<10k" },
+            { comune: "Posina", zona: "VERDE", popCat: "<10k" },
+            { comune: "Pove del Grappa", zona: "VERDE", popCat: "<10k" },
+            { comune: "Salcedo", zona: "VERDE", popCat: "<10k" },
+            { comune: "Solagna", zona: "VERDE", popCat: "<10k" },
+            { comune: "Tonezza del Cimone", zona: "VERDE", popCat: "<10k" },
+            { comune: "Torrebelvicino", zona: "VERDE", popCat: "<10k" },
+            { comune: "Valbrenta", zona: "VERDE", popCat: "<10k" },
+            { comune: "Valdastico", zona: "VERDE", popCat: "<10k" },
+            { comune: "Valli del Pasubio", zona: "VERDE", popCat: "<10k" },
+            { comune: "Velo d'Astico", zona: "VERDE", popCat: "<10k" },
+            { comune: "Zugliano", zona: "VERDE", popCat: "<10k" },
+            { comune: "Asiago", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Enego", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Foza", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Gallio", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Roana", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Rotzo", zona: "BIANCA", popCat: "<10k" },
+            { comune: "Vicenza", zona: "GIALLA", popCat: ">10k" },
+        ];
+
+        // RENT BANDS based on Page 13 Table
+        const rentBands = {
+             AZZURRA: { "<10k": { inferiore: { min: 2.5, max: 4.0 }, medio: { min: 3.0, max: 5.0 }, superiore: { min: 3.5, max: 5.5 } } },
+            GIALLA: {
+                "<10k": { inferiore: { min: 2.5, max: 4.5 }, medio: { min: 3.5, max: 5.5 }, superiore: { min: 4.5, max: 7.0 } },
+                ">10k": { inferiore: { min: 2.5, max: 4.5 }, medio: { min: 3.5, max: 5.5 }, superiore: { min: 4.5, max: 7.0 } }, // Same per table
+                "THIENE_CENTRO": { inferiore: {min: 3.5, max: 5.5}, medio: {min: 4.5, max: 7.0}, superiore: {min: 5.0, max: 8.0}},
+                "THIENE_PERIF": { inferiore: {min: 2.5, max: 4.5}, medio: {min: 3.5, max: 5.5}, superiore: {min: 4.5, max: 7.0}}
+            },
+             ARANCIONE: {
+                "<10k": { inferiore: { min: 3.0, max: 5.5 }, medio: { min: 3.5, max: 7.0 }, superiore: { min: 4.0, max: 8.0 } },
+                ">10k": { inferiore: { min: 3.0, max: 5.5 }, medio: { min: 3.5, max: 7.0 }, superiore: { min: 4.0, max: 8.0 } } // Same per table
+            },
+            VERDE: { "<10k": { inferiore: { min: 2.5, max: 4.0 }, medio: { min: 3.0, max: 5.0 }, superiore: { min: 3.5, max: 6.0 } } },
+            BIANCA: { "<10k": { inferiore: { min: 3.5, max: 5.5 }, medio: { min: 4.5, max: 7.0 }, superiore: { min: 5.0, max: 8.0 } } }
+        };
+
+        // Global variable to store results
+        let lastCalculationResults = null;
+
+        // --- SETUP & FUNCTIONS ---
+        // onload, handleComuneChange, handleContractTypeChange, calcolaSuperficieUtile,
+        // getAreaCoefficient, getAnnoRangeText, getTipologiaText, calcolaPunteggio,
+        // getCategoria, displayResults, calcolaCanone, generaAttestazione
+        // ... (All these JS functions remain the same as previous version) ...
+        window.onload = () => {
+            const selectComune = document.getElementById('comune');
+            comuniData.sort((a, b) => a.comune.localeCompare(b.comune));
+            comuniData.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.comune;
+                option.textContent = item.comune;
+                selectComune.appendChild(option);
+            });
+
+             selectComune.addEventListener('change', handleComuneChange);
+             handleComuneChange();
+
+              document.getElementById('tipo_contratto').addEventListener('change', handleContractTypeChange);
+              handleContractTypeChange();
+        };
+        function handleComuneChange() {
+             const selectedComune = document.getElementById('comune').value;
+             const thieneDetails = document.getElementById('thiene-details');
+             thieneDetails.classList.toggle('hidden', selectedComune !== 'Thiene');
+         }
+
+         function handleContractTypeChange() {
+             const contractType = document.getElementById('tipo_contratto').value;
+             const agevolatoOptions = document.getElementById('agevolato-options');
+             agevolatoOptions.classList.toggle('hidden', contractType !== 'agevolato');
+         }
+
+        function calcolaSuperficieUtile(returnDetails = false) {
+            const sup_calpestabile = parseFloat(document.getElementById('sup_calpestabile').value) || 0;
+            const garage = parseFloat(document.getElementById('sup_autorimessa').value) || 0;
+            const p_auto_com = parseFloat(document.getElementById('sup_posto_auto_comune').value) || 0;
+            const balconi = parseFloat(document.getElementById('sup_balconi').value) || 0;
+            const scoperta = parseFloat(document.getElementById('sup_scoperta').value) || 0;
+            const verde_cond = parseFloat(document.getElementById('sup_verde_cond').value) || 0;
+
+            const mq_calp = sup_calpestabile; // Already 100%
+            const mq_garage = garage * 0.50;
+            const mq_pauto = p_auto_com * 0.20;
+            const mq_balconi = balconi * 0.25;
+            const maxScoperta = sup_calpestabile;
+            const mq_scoperta = Math.min(scoperta, maxScoperta) * 0.15;
+            const mq_verde = verde_cond * 0.10;
+
+            const totale = mq_calp + mq_garage + mq_pauto + mq_balconi + mq_scoperta + mq_verde;
+
+            if (returnDetails) {
+                return {
+                    totale: totale,
+                    sup_calpestabile: sup_calpestabile, sup_garage: garage, sup_pauto: p_auto_com,
+                    sup_balconi: balconi, sup_scoperta: scoperta, sup_verde: verde_cond,
+                    mq_calp: mq_calp, mq_garage: mq_garage, mq_pauto: mq_pauto,
+                    mq_balconi: mq_balconi, mq_scoperta: mq_scoperta, mq_verde: mq_verde
+                };
+            }
+            return totale;
+        }
+
+        function getAreaCoefficient(sup_calpestabile) {
+            if (sup_calpestabile < 46) return 1.20;
+            if (sup_calpestabile < 70) return 1.10;
+            return 1.00;
+        }
+
+        function getAnnoRangeText() {
+             const anno = document.querySelector('input[name="anno_costruzione"]:checked').value;
+             if (anno === '0-15') return "0-15 anni";
+             if (anno === '16-35') return "16-35 anni";
+             return "Oltre 35 anni";
+        }
+
+         function getTipologiaText() {
+            const tipologia = document.querySelector('input[name="tipologia"]:checked').value;
+            if (tipologia === 'casa') return "Casa singola/bifamiliare/schiera";
+            if (tipologia === '<=14') return "Stabile fino a 14 alloggi";
+            // Note: Escape backslash for JS string, then HTML entity for ù
+            return "Stabile con pi&ugrave; di 14 alloggi";
+         }
+
+
+        function calcolaPunteggio() {
+            let punti = 0;
+            let dettagli = { tipo: 0, anno: 0, accessori: 0, numAccessori: 0 };
+
+            const tipologia = document.querySelector('input[name="tipologia"]:checked').value;
+            if (tipologia === 'casa') dettagli.tipo = 3;
+            else if (tipologia === '<=14') dettagli.tipo = 2;
+            else if (tipologia === '>14') dettagli.tipo = 1;
+            punti += dettagli.tipo;
+
+            const anno = document.querySelector('input[name="anno_costruzione"]:checked').value;
+            if (anno === '0-15') dettagli.anno = 2;
+            else if (anno === '16-35') dettagli.anno = 1;
+            punti += dettagli.anno;
+
+             const accessoriSelezionati = document.querySelectorAll('input[name="accessori"]:checked');
+             dettagli.numAccessori = accessoriSelezionati.length;
+             const n = dettagli.numAccessori;
+             if (n >= 10) dettagli.accessori = 5;
+             else if (n >= 7) dettagli.accessori = 4;
+             else if (n >= 4) dettagli.accessori = 3;
+             else if (n >= 2) dettagli.accessori = 2;
+             else if (n == 1) dettagli.accessori = 1;
+             punti += dettagli.accessori;
+
+            return { totale: punti, dettagli: dettagli };
+        }
+
+        function getCategoria(punti) {
+            if (punti >= 6) return 'superiore';
+            if (punti >= 3) return 'medio';
+            return 'inferiore';
+        }
+
+        function displayResults(results) {
+             document.getElementById('res-comune').textContent = results.comuneNome + (results.thienePos ? ` (${results.thienePos})` : '');
+             document.getElementById('res-zona').textContent = results.zona;
+             document.getElementById('res-pop').textContent = results.popCat;
+             document.getElementById('res-sup-utile').textContent = results.superficieDetails.totale.toFixed(2);
+             document.getElementById('res-coeff-area').textContent = results.coeffArea.toFixed(2);
+             document.getElementById('res-punti-tipo').textContent = results.puntiTipo;
+             document.getElementById('res-punti-anno').textContent = results.puntiAnno;
+             document.getElementById('res-num-accessori').textContent = results.numAccessori;
+             document.getElementById('res-punti-accessori').textContent = results.puntiAccessori;
+             document.getElementById('res-punti-totali').textContent = results.puntiTotali;
+             document.getElementById('res-categoria').textContent = results.categoria.toUpperCase();
+             document.getElementById('res-fascia-min').textContent = results.fasciaMinMq.toFixed(2);
+             document.getElementById('res-fascia-max').textContent = results.fasciaMaxMq.toFixed(2);
+             document.getElementById('res-canone-base-min').textContent = results.baseMinMensile.toFixed(2);
+             document.getElementById('res-canone-base-max').textContent = results.baseMaxMensile.toFixed(2);
+             document.getElementById('res-adeg-trans').textContent = results.adegTrans.toFixed(0);
+             document.getElementById('res-adeg-durata').textContent = results.adegDurata.toFixed(0);
+             document.getElementById('res-adeg-arredo').textContent = results.adegArredo.toFixed(0);
+             document.getElementById('res-adeg-lusso').textContent = results.adegLusso.toFixed(0);
+             document.getElementById('res-adeg-totale').textContent = results.adjustmentFactor.toFixed(3);
+             document.getElementById('res-canone-finale-min').textContent = results.finaleMinMensile.toFixed(2);
+             document.getElementById('res-canone-finale-max').textContent = results.finaleMaxMensile.toFixed(2);
+        }
+
+        function calcolaCanone() {
+            lastCalculationResults = null; // Reset previous results
+            try {
+                const comuneNome = document.getElementById('comune').value;
+                if (!comuneNome) throw new Error("Seleziona un comune.");
+
+                const superficieDetails = calcolaSuperficieUtile(true); // Get detailed surface info
+                const sup_calpestabile = superficieDetails.sup_calpestabile;
+                 if (sup_calpestabile <= 0) throw new Error("Inserisci una superficie calpestabile valida.");
+
+                 const superficieUtile = superficieDetails.totale;
+                 const tipo_contratto = document.getElementById('tipo_contratto').value;
+
+                 const comuneInfo = comuniData.find(c => c.comune === comuneNome);
+                 if (!comuneInfo) throw new Error("Dati comune non trovati.");
+                 const zona = comuneInfo.zona;
+                 let popCatLookupKey = comuneInfo.popCat;
+
+                 let isThiene = comuneNome === 'Thiene';
+                 let thienePos = '';
+                 if (isThiene) {
+                     thienePos = document.querySelector('input[name="thiene_pos"]:checked').value;
+                     popCatLookupKey = `THIENE_${thienePos.toUpperCase()}`;
+                 }
+
+                 const coeffArea = getAreaCoefficient(sup_calpestabile);
+                 const punteggioInfo = calcolaPunteggio();
+                 const puntiTotali = punteggioInfo.totale;
+                 const categoria = getCategoria(puntiTotali);
+
+                 let fascia;
+                 try {
+                     fascia = rentBands[zona]?.[popCatLookupKey]?.[categoria];
+                      if (!fascia) fascia = rentBands[zona]?.[comuneInfo.popCat]?.[categoria];
+                      if (!fascia && comuneInfo.popCat === '>10k') fascia = rentBands[zona]?.['<10k']?.[categoria];
+                      if (!fascia) throw new Error(`Fascia di canone non trovata per ${zona}/${popCatLookupKey} (o fallback ${comuneInfo.popCat}) / ${categoria}. Verifica dati.`);
+                 } catch (e) { throw e; } // Re-throw lookup error
+
+                 const fasciaMinMq = fascia.min;
+                 const fasciaMaxMq = fascia.max;
+
+                 const baseMinMensile = fasciaMinMq * coeffArea * superficieUtile;
+                 const baseMaxMensile = fasciaMaxMq * coeffArea * superficieUtile;
+
+                 let adjustmentFactor = 1.0;
+                 let adegTrans = 0, adegDurata = 0, adegArredo = 0, adegLusso = 0;
+
+                 if (tipo_contratto === 'transitorio' && comuneInfo.popCat === '>10k') {
+                     adegTrans = 15; adjustmentFactor *= 1.15;
+                 }
+
+                 if (tipo_contratto === 'agevolato') {
+                     const durataValue = parseInt(document.getElementById('durata_contratto').value);
+                     if (durataValue === 1) adegDurata = 2;
+                     else if (durataValue === 2) adegDurata = 3;
+                     else if (durataValue === 3) adegDurata = 4;
+                     adjustmentFactor *= (1 + adegDurata / 100);
+                 }
+
+                 const arredoValue = document.getElementById('arredo').value;
+                 if (arredoValue === 'semi_arredato') adegArredo = 5;
+                 else if (arredoValue === 'completo_recente') adegArredo = 15;
+                 else if (arredoValue === 'completo_medio') adegArredo = 10;
+                 else if (arredoValue === 'completo_vecchio') adegArredo = 5;
+                 adjustmentFactor *= (1 + adegArredo / 100);
+
+                 const catLussoValue = document.querySelector('input[name="cat_lusso"]:checked').value;
+                 if (catLussoValue === 'yes') {
+                     adegLusso = 2; adjustmentFactor *= 1.02;
+                 }
+
+                 const finaleMinMensile = baseMinMensile * adjustmentFactor;
+                 const finaleMaxMensile = baseMaxMensile * adjustmentFactor;
+
+                // --- Store results for Attestazione ---
+                 lastCalculationResults = {
+                     comuneNome: comuneNome,
+                     thienePos: thienePos,
+                     zona: zona,
+                     popCat: comuneInfo.popCat,
+                     superficieDetails: superficieDetails, // Store detailed breakdown
+                     coeffArea: coeffArea,
+                     puntiTipo: punteggioInfo.dettagli.tipo,
+                     puntiAnno: punteggioInfo.dettagli.anno,
+                     numAccessori: punteggioInfo.dettagli.numAccessori,
+                     puntiAccessori: punteggioInfo.dettagli.accessori,
+                     puntiTotali: puntiTotali,
+                     categoria: categoria,
+                     fasciaMinMq: fasciaMinMq,
+                     fasciaMaxMq: fasciaMaxMq,
+                     baseMinMensile: baseMinMensile,
+                     baseMaxMensile: baseMaxMensile,
+                     adegTrans: adegTrans,
+                     adegDurata: adegDurata,
+                     adegArredo: adegArredo,
+                     adegLusso: adegLusso,
+                     adjustmentFactor: adjustmentFactor,
+                     finaleMinMensile: finaleMinMensile,
+                     finaleMaxMensile: finaleMaxMensile,
+                     annoRangeText: getAnnoRangeText(), // Store text descriptions too
+                     tipologiaText: getTipologiaText()
+                 };
+
+
+                 // --- Display Results ---
+                 displayResults(lastCalculationResults); // Call separate display function
+
+                 document.getElementById('risultati').style.display = 'block';
+                 document.getElementById('word-output').style.display = 'none'; // Hide word output on new calculation
+
+             } catch (error) {
+                 console.error("Errore nel calcolo:", error);
+                 alert("Si è verificato un errore durante il calcolo: " + error.message);
+                 document.getElementById('risultati').style.display = 'none';
+                 document.getElementById('word-output').style.display = 'none';
+             }
+        }
+
+        function generaAttestazione() {
+            if (!lastCalculationResults) {
+                alert("Esegui prima il calcolo della fascia canone.");
+                return;
+            }
+
+            const r = lastCalculationResults; // Shorthand
+
+            // Populate Word output section (HTML view)
+            document.getElementById('word-res-comune').textContent = r.comuneNome;
+            document.getElementById('word-sup-calp').textContent = r.superficieDetails.sup_calpestabile.toFixed(2);
+            document.getElementById('word-mq-calp').textContent = r.superficieDetails.mq_calp.toFixed(2);
+            document.getElementById('word-sup-garage').textContent = r.superficieDetails.sup_garage.toFixed(2);
+            document.getElementById('word-mq-garage').textContent = r.superficieDetails.mq_garage.toFixed(2);
+            document.getElementById('word-sup-pauto').textContent = r.superficieDetails.sup_pauto.toFixed(2);
+            document.getElementById('word-mq-pauto').textContent = r.superficieDetails.mq_pauto.toFixed(2);
+            document.getElementById('word-sup-balconi').textContent = r.superficieDetails.sup_balconi.toFixed(2);
+            document.getElementById('word-mq-balconi').textContent = r.superficieDetails.mq_balconi.toFixed(2);
+            document.getElementById('word-sup-scoperta').textContent = r.superficieDetails.sup_scoperta.toFixed(2);
+            document.getElementById('word-mq-scoperta').textContent = r.superficieDetails.mq_scoperta.toFixed(2);
+            document.getElementById('word-sup-verde').textContent = r.superficieDetails.sup_verde.toFixed(2);
+            document.getElementById('word-mq-verde').textContent = r.superficieDetails.mq_verde.toFixed(2);
+            document.getElementById('word-coeff-area').textContent = r.coeffArea.toFixed(2);
+            document.getElementById('word-mq-totale').textContent = r.superficieDetails.totale.toFixed(2);
+            document.getElementById('word-tipo-edilizia').innerHTML = r.tipologiaText; // Use innerHTML for entities like &ugrave;
+            document.getElementById('word-punti-tipo').textContent = r.puntiTipo;
+            document.getElementById('word-anno-costr').textContent = r.annoRangeText;
+            document.getElementById('word-punti-anno').textContent = r.puntiAnno;
+            document.getElementById('word-num-accessori').textContent = r.numAccessori;
+            document.getElementById('word-punti-accessori').textContent = r.puntiAccessori;
+            document.getElementById('word-punti-totali').textContent = r.puntiTotali;
+            document.getElementById('word-punti-totali-2').textContent = r.puntiTotali;
+            document.getElementById('word-punti-totali-3').textContent = r.puntiTotali;
+            document.getElementById('word-zona').textContent = r.zona;
+            document.getElementById('word-fascia-min-mq').textContent = r.fasciaMinMq.toFixed(2);
+            document.getElementById('word-fascia-max-mq').textContent = r.fasciaMaxMq.toFixed(2);
+            document.getElementById('word-categoria').textContent = r.categoria.toUpperCase();
+            document.getElementById('word-fascia-min-mq-2').textContent = r.fasciaMinMq.toFixed(2);
+            document.getElementById('word-fascia-max-mq-2').textContent = r.fasciaMaxMq.toFixed(2);
+            document.getElementById('word-canone-base-min').textContent = r.baseMinMensile.toFixed(2);
+            document.getElementById('word-canone-base-max').textContent = r.baseMaxMensile.toFixed(2);
+            document.getElementById('word-canone-finale-min').textContent = r.finaleMinMensile.toFixed(2);
+            document.getElementById('word-canone-finale-max').textContent = r.finaleMaxMensile.toFixed(2);
+
+             document.getElementById('word-output').style.display = 'block';
+             document.getElementById('word-output').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- NEW FUNCTION for HTML Download ---
+        function scaricaHTML() {
+             if (!lastCalculationResults) {
+                alert("Esegui prima il calcolo della fascia canone.");
+                return;
+            }
+
+            try {
+                const r = lastCalculationResults;
+                const fillIn = "..............................";
+                const fillInShort = "..........";
+                const fillInDate = ".. / .. / ....";
+                const fillInNum = "........";
+                const fillInEuro = '<span style="font-family: \'Courier New\', Courier, monospace;">_placeholder_canone_&euro;_</span>'; // Placeholder for manual euro amount
+
+                // Use the structure from the #word-output div but build it as a string
+                 const htmlDoc = `
+                 <!DOCTYPE html>
+                 <html lang="it">
+                 <head>
+                     <meta charset="UTF-8">
+                     <title>Attestazione Canone Concordato</title>
+                     <style>
+                         body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; margin: 40px; }
+                         h2 { font-size: 14pt; text-align: center; margin-bottom: 20px; border-bottom: 1px solid #000; padding-bottom: 5px; font-weight: bold; }
+                         h3 { font-size: 12pt; font-weight: bold; margin-top: 20px; margin-bottom: 10px; }
+                         p { margin-bottom: 10px; text-align: justify; }
+                         table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11pt; }
+                         th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+                         th { background-color: #f2f2f2; font-weight: bold; }
+                         .placeholder { font-weight: bold; color: #0056b3; }
+                         .fill-in { display: inline-block; min-width: 150px; border-bottom: 1px dotted #000; margin: 0 5px; text-align: center; color: #777; font-style: italic; font-size: 10pt; line-height: 1.2; }
+                         .small-fill-in { min-width: 50px; }
+                         .sig-line { display: inline-block; width: 250px; border-top: 1px solid #000; margin-top: 40px; text-align: center; }
+                         .footer-note { font-size: 9pt; color: #555; text-align: center; margin-top: 20px; }
+                     </style>
+                 </head>
+                 <body>
+                     <h2>ATTESTAZIONE DI RISPONDENZA EX D.M. 16/1/2017</h2>
+                     <p style="text-align: center; margin-bottom: 25px;">(Modello Allegato 3 - Accordo Territoriale Vicenza)</p>
+
+                     <p>L'Organizzazione <span class="fill-in">Nome Organizzazione</span> firmataria dell'Accordo territoriale per il Comune di Vicenza, depositato il <span class="fill-in small-fill-in">Data Dep.</span> in persona di <span class="fill-in">Nome Rappresentante</span></p>
+
+                     <h3>PREMESSO CHE</h3>
+                     <p>il Sig. <span class="fill-in">Nome Locatore/Conduttore</span> C.F.: <span class="fill-in">C.F. Locatore/Conduttore</span> residente a <span class="fill-in">Indirizzo Residenza</span> in Via/P.za <span class="fill-in">Via/P.za Residenza</span> n. <span class="fill-in small-fill-in">Civico</span>
+                     nella qualit&agrave; di locatore/conduttore dell'immobile/porzione di immobile sito a <span class="placeholder">${r.comuneNome}</span> in Via/P.za <span class="fill-in">Via Immobile</span> n. <span class="fill-in small-fill-in">Civico Imm.</span> piano <span class="fill-in small-fill-in">Piano</span> int. <span class="fill-in small-fill-in">Interno</span> con contratto stipulato con il Sig. <span class="fill-in">Nome Controparte</span> C.F.: <span class="fill-in">C.F. Controparte</span> residente a <span class="fill-in">Indirizzo Res. Controparte</span> in Via/P.za <span class="fill-in">Via/P.za Res. Contr.</span> n. <span class="fill-in small-fill-in">Civico Res. Contr.</span> il <span class="fill-in small-fill-in">Data Stipula</span>
+                     decorrenza il <span class="fill-in small-fill-in">Data Decorrenza</span> registrato il <span class="fill-in small-fill-in">Data Reg.</span> al n. <span class="fill-in">Num. Reg.</span> presso l'Agenzia delle entrate <span class="fill-in">Ufficio AdE</span> /in corso di registrazione, essendo i termini non ancora scaduti, ha presentato richiesta per l'attestazione ex D.M. 16/1/2017, dichiarando, sotto la sua responsabilit&agrave;, i seguenti elementi:</p>
+                     <p style="text-align: center; font-style:italic; margin-bottom: 15px;">(A SOLO TITOLO ESEMPLIFICATIVO)</p>
+
+                     <h3>CALCOLO DELLA SUPERFICIE ai sensi dell'Accordo territoriale</h3>
+                     <table>
+                         <thead>
+                             <tr>
+                                 <th>Componente</th>
+                                 <th>Mq. Lordi</th>
+                                 <th>% Applicata</th>
+                                 <th>Coefficiente Area</th>
+                                 <th>Mq. Utili Calcolati</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Superficie calpestabile appartamento</td>
+                                 <td>${r.superficieDetails.sup_calpestabile.toFixed(2)}</td>
+                                 <td>100%</td>
+                                 <td rowspan="6" style="vertical-align: middle; text-align:center;">${r.coeffArea.toFixed(2)}</td>
+                                 <td>${r.superficieDetails.mq_calp.toFixed(2)}</td>
+                             </tr>
+                             <tr><td>Autorimessa singola</td><td>${r.superficieDetails.sup_garage.toFixed(2)}</td><td>50%</td><td>${r.superficieDetails.mq_garage.toFixed(2)}</td></tr>
+                             <tr><td>Posto macchina in comune</td><td>${r.superficieDetails.sup_pauto.toFixed(2)}</td><td>20%</td><td>${r.superficieDetails.mq_pauto.toFixed(2)}</td></tr>
+                             <tr><td>Balconi, terrazze, cantine e simili</td><td>${r.superficieDetails.sup_balconi.toFixed(2)}</td><td>25%</td><td>${r.superficieDetails.mq_balconi.toFixed(2)}</td></tr>
+                             <tr><td>Superficie scoperta in godimento esclusivo</td><td>${r.superficieDetails.sup_scoperta.toFixed(2)}</td><td>15%</td><td>${r.superficieDetails.mq_scoperta.toFixed(2)}</td></tr>
+                             <tr><td>Sup. a verde condominiale (quota MM)</td><td>${r.superficieDetails.sup_verde.toFixed(2)}</td><td>10%</td><td>${r.superficieDetails.mq_verde.toFixed(2)}</td></tr>
+                             <tr><td colspan="4" style="text-align:right; font-weight:bold;">TOTALE SUPERFICIE UTILE (mq)</td><td style="font-weight:bold;">${r.superficieDetails.totale.toFixed(2)}</td></tr>
+                         </tbody>
+                     </table>
+
+                     <h3>ELEMENTI E PARAMETRI OGGETTIVI</h3>
+                     <p>Tipologia Edilizia: <span class="placeholder">${r.tipologiaText}</span> (<span class="placeholder">${r.puntiTipo}</span> punti)</p>
+                     <p>Anno di fabbricazione / ristrutturazione integrale / restauro: <span class="placeholder">${r.annoRangeText}</span> (<span class="placeholder">${r.puntiAnno}</span> punti)</p>
+                     <p>Accessori e servizi tecnici in dotazione (numero parametri): <span class="placeholder">${r.numAccessori}</span> (<span class="placeholder">${r.puntiAccessori}</span> punti)</p>
+                     <p style="margin-top: 10px;">PUNTEGGIO TOTALE: <span class="placeholder">${r.puntiTotali}</span> punti</p>
+
+                     <h3>ZONA TERRITORIALE E FASCIA DI OSCILLAZIONE</h3>
+                     <p>ZONA: <span class="placeholder">${r.zona}</span></p>
+                     <p>FASCIA DI OSCILLAZIONE MIN/MAX (Allegato 1): Min. &euro; <span class="placeholder">${r.fasciaMinMq.toFixed(2)}</span>/mq - Max. &euro; <span class="placeholder">${r.fasciaMaxMq.toFixed(2)}</span>/mq</p>
+                     <p>ELEMENTI E PARAMETRI n. <span class="placeholder">${r.puntiTotali}</span>; punteggio totale n. <span class="placeholder">${r.puntiTotali}</span>; SUBFASCIA (Categoria): <span class="placeholder">${r.categoria.toUpperCase()}</span></p>
+                     <p>Valore applicato &euro;/mq: (compreso tra <span class="placeholder">${r.fasciaMinMq.toFixed(2)}</span> e <span class="placeholder">${r.fasciaMaxMq.toFixed(2)}</span>)</p>
+                     <p>CANONE concordato: mensili = &euro; <span class="fill-in">${fillInEuro}</span> (annuo &euro; <span class="fill-in">${fillInEuro}</span>)</p>
+                     <p style="font-size: 10pt; font-style: italic;">(Rif. calcolo: Fascia base: Min &euro; ${r.baseMinMensile.toFixed(2)} - Max &euro; ${r.baseMaxMensile.toFixed(2)}. Fascia finale stima: Min &euro; ${r.finaleMinMensile.toFixed(2)} - Max &euro; ${r.finaleMaxMensile.toFixed(2)})</p>
+
+                     <h3>ATTESTA</h3>
+                     <p>Tutto ci&ograve; premesso, l'Organizzazione <span class="fill-in">Nome Organizzazione Ripetuto</span> come sopra rappresentata, sulla base degli elementi oggettivi sopra dichiarati, anche ai fini dell'ottenimento di eventuali agevolazioni fiscali, ATTESTA che i contenuti economici e normativi del contratto sopra descritto corrispondono a quanto previsto dall'Accordo territoriale vigente per il Comune di Vicenza, depositato in data <span class="fill-in small-fill-in">Data Dep. Ripetuta</span>.</p>
+
+                     <div style="margin-top: 50px; display: flex; justify-content: space-between; padding: 0 50px;">
+                         <div><p>Il dichiarante</p><p class="sig-line"></p></div>
+                         <div><p>p. l'Organizzazione</p><p class="sig-line"></p></div>
+                     </div>
+                     <p class="footer-note">Questa attestazione generata automaticamente riporta i valori calcolati dallo strumento web. Le parti vuote sono da compilare manualmente.</p>
+                 </body>
+                 </html>`;
+
+                // Create Blob and Trigger Download
+                const blob = new Blob([htmlDoc], { type: 'text/html' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                // Sanitize filename slightly
+                const safeComuneName = r.comuneNome.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                link.download = `Attestazione_Canone_${safeComuneName}.html`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href); // Clean up
+
+            } catch (error) {
+                console.error("Errore nella generazione HTML:", error);
+                alert("Si è verificato un errore durante la generazione del file HTML: " + error.message);
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>
