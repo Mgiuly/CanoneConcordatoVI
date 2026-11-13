@@ -3,412 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try{if(window.self!==window.top)document.documentElement.classList.add("embedded")}catch(e){document.documentElement.classList.add("embedded")}</script>
     <title>Calcolo Canone Concordato - Provincia di Vicenza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Enhanced Aesthetics --- */
-        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        :root {
+            /* Palette lifted from giuliatobattistin.it */
+            --bg: #2C3E50;
+            --deep: #0D1F31;
+            --line: rgba(255, 255, 255, 0.16);
+            --line-strong: rgba(255, 255, 255, 0.34);
+            --text: rgba(255, 255, 255, 0.88);
+            --muted: rgba(255, 255, 255, 0.72);
+            --white: #FFFFFF;
+            --teal: #0F766E;
+            --teal-hover: #115E59;
+            --mint: #32D296;
+            --red: #E74C3C;
+            --red-text: #FF9B8F;
 
-        body {
-            font-family: 'Lato', sans-serif;
-            line-height: 1.7;
-            margin: 0;
-            background-color: #f8f9fa; /* Lighter grey */
-            color: #444; /* Darker text */
-            padding: 20px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 20px auto;
-            background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-top: 5px solid #0056b3; /* Accent color */
-        }
-        h1 {
-           color: #0056b3;
-           text-align: center;
-           margin-bottom: 15px;
-           font-weight: 700;
-           border-bottom: 1px solid #eee;
-           padding-bottom: 15px;
-        }
-        h2 {
-            color: #333;
-            text-align: left; /* Changed for section headers */
-            margin-top: 30px; /* More space before sections */
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 1.3em;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 8px;
-         }
-        .form-group {
-            margin-bottom: 22px; /* Increased spacing */
-            padding-bottom: 10px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px; /* Increased spacing */
-            font-weight: 700; /* Bolder labels */
-            font-size: 0.95em;
-            color: #555;
-        }
-        select, input[type="number"], input[type="text"] {
-            width: 100%;
-            padding: 12px; /* Larger inputs */
-            border: 1px solid #ced4da; /* Softer border */
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 1em;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        select:focus, input[type="number"]:focus, input[type="text"]:focus {
-            border-color: #0056b3;
-            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2); /* Focus ring */
-            outline: none;
-        }
-         input[type="checkbox"], input[type="radio"] {
-            margin-right: 8px;
-            transform: scale(1.1); /* Slightly larger radios/checkboxes */
-         }
-        .checkbox-group label, .radio-group label {
-            font-weight: 400; /* Normal weight for options */
-            display: inline-block;
-            margin-right: 20px;
-            margin-bottom: 8px; /* Spacing for wrapped items */
-            cursor: pointer;
-        }
-         .checkbox-group { line-height: 1.8; } /* Better spacing for checkboxes */
+            --sheet: #FFFFFF;
+            --sheet-text: #2C3E50;
+            --sheet-muted: #56677A;
+            --sheet-line: #DCE1E6;
+            --sheet-soft: #F4F6F8;
 
-        .button-container {
-            display: flex;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 10px; /* Space between buttons */
-            margin-top: 25px;
+            --font-display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+            --font-body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+            --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px; --space-5: 48px;
+            --radius-panel: 16px; --radius-field: 10px; --radius-pill: 9999px;
+            --shadow-panel: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+            --shadow-focus: 0 0 0 3px rgba(50, 210, 150, 0.35);
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        button {
-            flex: 1 1 auto; /* Allow buttons to grow/shrink */
-            min-width: 200px; /* Minimum width before wrapping */
-            padding: 14px 15px;
-            background-color: #0056b3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.05em; /* Slightly adjusted */
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-            box-sizing: border-box;
-            text-align: center;
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; color-scheme: dark; scrollbar-color: var(--line-strong) var(--bg); }
+        body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; margin: 0; padding: var(--space-5) var(--space-2) 96px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        ::selection { background: var(--mint); color: var(--deep); }
+        :focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+        .hidden { display: none !important; }
+
+        .container { max-width: 960px; margin: 0 auto; }
+        html.embedded body { padding-top: var(--space-2); padding-bottom: var(--space-4); }
+        html.embedded .page-head .brand, html.embedded .page-head h1 { display: none; }
+        html.embedded .page-head { margin-bottom: var(--space-3); }
+
+        .page-head { text-align: center; margin-bottom: var(--space-4); }
+        .page-head .brand { font-family: var(--font-display); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: var(--muted); margin: 0 0 var(--space-2); }
+        .page-head h1 { font-family: var(--font-display); font-size: clamp(26px, 5vw, 36px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; color: var(--white); margin: 0; text-wrap: balance; }
+        .page-head .subtitle { margin: var(--space-2) auto 0; max-width: 60ch; color: var(--muted); }
+
+        .note { margin: 0 0 var(--space-4); padding: var(--space-2) var(--space-3); background: rgba(250, 145, 90, 0.1); border: 1px solid rgba(250, 145, 90, 0.4); border-radius: var(--radius-field); font-size: 13.5px; line-height: 1.6; color: var(--text); }
+        .note strong { color: var(--white); }
+
+        /* Form sheet */
+        #calcolo-form { background: var(--deep); border: 1px solid var(--line); border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); padding: var(--space-5); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); column-gap: var(--space-5); row-gap: var(--space-5); align-items: start; }
+        .form-section { border: 0; margin: 0; padding: 0; min-width: 0; }
+        .form-section.wide { grid-column: 1 / -1; }
+        .form-section legend { float: left; width: 100%; padding: 0 0 var(--space-2); margin: 0 0 var(--space-3); border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: 0.01em; line-height: 1.3; color: var(--white); }
+        .form-section legend + * { clear: both; }
+        .field + .field { margin-top: var(--space-2); }
+        .field label:not(.choice), .choices-label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text); font-size: 13.5px; }
+        .field input[type="number"], .field select {
+            width: 100%; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-field);
+            font-family: inherit; font-size: 16px; color: var(--white); background: var(--bg);
+            transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+            font-variant-numeric: tabular-nums;
+        }
+        .field select option { color: #1B2733; background: #fff; }
+        .field input::placeholder { color: var(--muted); opacity: 0.6; }
+        .field input[type="number"]:hover, .field select:hover { border-color: rgba(255, 255, 255, 0.55); }
+        .field input[type="number"]:focus, .field select:focus { border-color: var(--mint); outline: none; box-shadow: var(--shadow-focus); }
+        [aria-invalid="true"] { border-color: var(--red) !important; }
+        .hint { font-size: 12.5px; color: var(--muted); margin: 5px 0 0; display: block; line-height: 1.5; }
+
+        .choices { display: grid; gap: 4px; }
+        .choices.two-col { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); column-gap: var(--space-3); }
+        .choices-box { margin-top: var(--space-2); padding: var(--space-2); background: rgba(255,255,255,0.05); border-radius: var(--radius-field); }
+        .choice { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 6px 4px; font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.4; }
+        .choice input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--mint); cursor: pointer; }
+
+        .form-error { grid-column: 1 / -1; margin: 0; text-align: center; color: var(--red-text); font-weight: 600; font-size: 14px; }
+        .form-error[hidden] { display: none; }
+
+        .btn { font-family: var(--font-display); color: #fff; display: inline-flex; justify-content: center; align-items: center; gap: var(--space-1); padding: 12px 24px; min-height: 48px; width: 100%; border: 1px solid transparent; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.3; text-align: center; cursor: pointer; transition: background-color 0.2s var(--ease-out), transform 0.15s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out); }
+        .btn:hover { transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary { background: var(--teal); }
+        .btn-primary:hover { background: var(--teal-hover); }
+        .btn-outline { background: transparent; color: var(--sheet-text); border-color: var(--sheet-text); }
+        .btn-outline:hover { background: var(--sheet-text); color: #fff; }
+        #btn-calc { grid-column: 1 / -1; justify-self: center; width: min(100%, 380px); padding: 16px 32px; font-size: 15px; text-transform: uppercase; }
+
+        /* Results: white sheet */
+        .results-section { display: none; margin-top: var(--space-5); background: var(--sheet); color: var(--sheet-muted); padding: var(--space-5); border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); scroll-margin-top: var(--space-3); }
+        .results-section:focus { outline: none; }
+        .results-section.visible { display: block; animation: reveal 0.6s var(--ease-out); }
+        @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+        .highlight-box { margin: 0 0 var(--space-2); }
+        .highlight-box p { margin: 0; font-family: var(--font-display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--teal); }
+        .highlight-box .range { display: block; margin-top: 6px; font-family: var(--font-display); font-size: clamp(28px, 6vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--sheet-text); font-variant-numeric: tabular-nums; }
+        .sheet-note { margin: 0 0 var(--space-4); font-size: 14px; color: var(--sheet-muted); }
+        .results-section h2 { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--sheet-text); margin: 0 0 var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--sheet-line); }
+        .results-section h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sheet-text); margin: var(--space-3) 0 4px; }
+        .detail-list { margin: 0; }
+        .detail-list .row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); padding: 10px 0; border-bottom: 1px solid var(--sheet-line); font-size: 14.5px; }
+        .detail-list dt { color: var(--sheet-muted); }
+        .detail-list dd { margin: 0; text-align: right; font-weight: 600; color: var(--sheet-text); font-variant-numeric: tabular-nums; }
+        .detail-list .row.strong dt { color: var(--sheet-text); font-weight: 700; }
+        .detail-list .row.strong dd { color: #115E59; font-weight: 700; }
+        .result-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--sheet-line); flex-wrap: wrap; }
+        .result-actions .btn { flex: 1 1 240px; }
+        .results-section :focus-visible { outline-color: var(--teal); }
+
+        /* Attestation: a paper document, kept in a serif as in the original */
+        #word-output { margin-top: var(--space-5); padding: var(--space-5); background: #fff; color: #1d1d1d; border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
+        #word-output h2 { font-family: 'Times New Roman', Times, serif; font-size: 14pt; text-align: center; margin-bottom: 20px; color: #000; border-bottom: 1px solid #000; padding-bottom: 5px; font-weight: bold; }
+        #word-output h3 { font-family: 'Times New Roman', Times, serif; font-size: 12pt; font-weight: bold; margin-top: 20px; margin-bottom: 10px; color: #000; }
+        #word-output p { margin-top: 0; margin-bottom: 10px; text-align: justify; color: #1d1d1d; }
+        #word-output table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11pt; }
+        #word-output th, #word-output td { border: 1px solid #bbb; padding: 6px 8px; text-align: left; color: #1d1d1d; }
+        #word-output th { background-color: #eef1f4; font-weight: bold; }
+        #word-output .placeholder { font-weight: bold; color: #115E59; }
+        #word-output .fill-in { display: inline-block; min-width: 150px; border-bottom: 1px dotted #000; margin: 0 5px; text-align: center; color: #555; font-style: italic; font-size: 10pt; line-height: 1.2; }
+        #word-output .small-fill-in { min-width: 50px; }
+        #word-output .sig-line { display: inline-block; width: 250px; border-top: 1px solid #000; margin-top: 40px; text-align: center; }
+        #word-output .footer-note { font-size: 10pt; color: #444; text-align: center; margin-top: 20px; }
+        #word-output .info { color: #444; }
+
+        @media (max-width: 640px) {
+            body { padding-top: var(--space-4); }
+            #calcolo-form { padding: var(--space-3) var(--space-2); row-gap: var(--space-4); border-radius: 14px; }
+            .results-section, #word-output { padding: var(--space-4) var(--space-2); border-radius: 14px; }
+            .detail-list .row { flex-wrap: wrap; }
+            .detail-list dd { text-align: left; }
+            #word-output .sig-line { width: 180px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .btn:hover { transform: none; }
         }
 
-        button:hover {
-            background-color: #004494;
-            transform: translateY(-1px);
-        }
-         button:active {
-             transform: translateY(0px);
-         }
-         /* Specific color for download button */
-         button.download-btn {
-            background-color: #28a745; /* Green */
-         }
-         button.download-btn:hover {
-             background-color: #218838; /* Darker Green */
-         }
-
-
-        #risultati {
-            margin-top: 35px;
-            padding: 25px;
-            background-color: #eef5fc; /* Lighter blue */
-            border: 1px solid #cce0f5; /* Medium blue border */
-            border-radius: 8px;
-        }
-        #risultati h2 {
-            margin-top: 0;
-            color: #0056b3;
-            font-size: 1.4em;
-             border-bottom: 1px solid #cce0f5;
-             padding-bottom: 12px;
-             margin-bottom: 20px;
-        }
-         #risultati p {
-            margin: 10px 0;
-            font-size: 1em;
-            padding-bottom: 5px;
-            border-bottom: 1px dotted #ddd; /* Subtle separator */
-         }
-         #risultati p:last-child { border-bottom: none; }
-
-         #risultati strong {
-             color: #333;
-             display: inline-block;
-             min-width: 280px; /* Align values */
-         }
-         #risultati .final-result {
-             font-size: 1.3em;
-             font-weight: 700;
-             color: #1a7431; /* Green for final result */
-             border-top: 2px solid #cce0f5;
-             padding-top: 15px;
-             margin-top: 15px;
-             border-bottom: none;
-         }
-         #risultati .final-result span { font-weight: 700; }
-
-        .warning {
-            color: #856404; /* Dark yellow/brown */
-            font-weight: normal; /* Less aggressive */
-            background-color: #fff3cd; /* Light yellow */
-            padding: 15px;
-            border: 1px solid #ffeeba; /* Yellow border */
-            border-radius: 5px;
-            margin-bottom: 25px;
-            font-size: 0.95em;
-        }
-        .info {
-            font-size: 0.9em;
-            color: #6c757d; /* Bootstrap secondary color */
-            margin-top: -5px;
-            margin-bottom: 10px;
-        }
-        .hidden {
-            display: none;
-        }
-         #thiene-details {
-             padding: 15px;
-             margin-top: 15px;
-             background-color: #f1f3f5; /* Very light grey */
-             border-radius: 5px;
-             border: 1px solid #e9ecef;
-         }
-
-         /* Styles for Word Output Section (kept for copy/paste option) */
-         #word-output {
-             margin-top: 40px;
-             padding: 30px;
-             background-color: #fdfdfd;
-             border: 1px solid #ccc;
-             border-radius: 5px;
-             font-family: 'Times New Roman', Times, serif;
-             font-size: 12pt;
-             line-height: 1.5;
-         }
-          #word-output h2 {
-             font-size: 14pt;
-             text-align: center;
-             margin-bottom: 20px;
-             color: #000;
-             border-bottom: 1px solid #000;
-             padding-bottom: 5px;
-             font-weight: bold;
-         }
-         #word-output h3 {
-             font-size: 12pt;
-             font-weight: bold;
-             margin-top: 20px;
-             margin-bottom: 10px;
-         }
-         #word-output p {
-             margin-bottom: 10px;
-             text-align: justify;
-         }
-         #word-output table {
-             width: 100%;
-             border-collapse: collapse;
-             margin: 15px 0;
-             font-size: 11pt;
-         }
-         #word-output th, #word-output td {
-             border: 1px solid #ccc;
-             padding: 6px 8px;
-             text-align: left;
-         }
-          #word-output th {
-              background-color: #f2f2f2;
-              font-weight: bold;
-          }
-         #word-output .placeholder {
-             font-weight: bold;
-             color: #0056b3; /* Highlight calculated fields */
-         }
-         #word-output .fill-in {
-             display: inline-block;
-             min-width: 150px; /* Space for manual input */
-             border-bottom: 1px dotted #000;
-             margin: 0 5px;
-             text-align: center;
-             color: #777;
-             font-style: italic;
-             font-size: 10pt;
-             line-height: 1.2;
-         }
-         #word-output .small-fill-in { min-width: 50px; }
-         #word-output .sig-line {
-            display: inline-block;
-            width: 250px;
-            border-top: 1px solid #000;
-            margin-top: 40px;
-            text-align: center;
-         }
-          #word-output .footer-note {
-              font-size: 9pt;
-              color: #555;
-              text-align: center;
-              margin-top: 20px;
-          }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Calcolatore Canone Concordato</h1>
-        <p class="info" style="text-align:center;">Provincia di Vicenza - Accordo Territoriale 03/04/2019 (DM 16/01/2017)</p>
+        <header class="page-head">
+            <p class="brand">Giuliato&amp;Battistin</p>
+            <h1>Calcolatore Canone Concordato</h1>
+            <p class="subtitle">Provincia di Vicenza - Accordo Territoriale 03/04/2019 (DM 16/01/2017)</p>
+        </header>
 
-        <p class="warning">ATTENZIONE: I valori minimi e massimi (€/mq) delle fasce di oscillazione sono basati sulla tabella "ALL. 1" a pagina 13 del documento fornito. Si noti che tale tabella non differenzia esplicitamente per popolazione (<10k/>10k) per la maggior parte delle zone (ad eccezione di Thiene). Si raccomanda comunque una verifica con le organizzazioni firmatarie per la conferma definitiva dei valori applicabili.</p>
+        <p class="note"><strong>Attenzione:</strong> i valori minimi e massimi (€/mq) delle fasce di oscillazione sono basati sulla tabella "ALL. 1" a pagina 13 del documento fornito. Si noti che tale tabella non differenzia esplicitamente per popolazione (&lt;10k/&gt;10k) per la maggior parte delle zone (ad eccezione di Thiene). Si raccomanda comunque una verifica con le organizzazioni firmatarie per la conferma definitiva dei valori applicabili.</p>
 
-        <form id="calcolo-form">
-            <h2>Dati Immobile e Contratto</h2>
-            <!-- Form fields remain the same -->
-            <div class="form-group">
-                <label for="comune">Comune:</label>
-                <select id="comune" name="comune" required>
-                    <option value="">-- Seleziona Comune --</option>
-                </select>
-                <div id="thiene-details" class="hidden">
-                    <label>Posizione a Thiene:</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="thiene_pos" value="centro" checked> Centro</label>
-                        <label><input type="radio" name="thiene_pos" value="periferia"> Periferia</label>
+        <form id="calcolo-form" novalidate onsubmit="return false">
+            <fieldset class="form-section">
+                <legend>Dati Immobile e Contratto</legend>
+                <div class="field">
+                    <label for="comune">Comune</label>
+                    <select id="comune" name="comune" required aria-describedby="err-calc">
+                        <option value="">-- Seleziona Comune --</option>
+                    </select>
+                    <div id="thiene-details" class="hidden choices-box">
+                        <span class="choices-label" id="thiene-label">Posizione a Thiene</span>
+                        <div class="choices" role="radiogroup" aria-labelledby="thiene-label">
+                            <label class="choice"><input type="radio" name="thiene_pos" value="centro" checked> Centro</label>
+                            <label class="choice"><input type="radio" name="thiene_pos" value="periferia"> Periferia</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                 <label for="tipo_contratto">Tipo di Contratto:</label>
-                 <select id="tipo_contratto" name="tipo_contratto">
-                     <option value="agevolato">Agevolato (3+2 / 4+2 / ecc.)</option>
-                     <option value="transitorio">Transitorio Ordinario (max 18 mesi)</option>
-                     <option value="studenti">Transitorio Studenti (6 mesi - 3 anni)</option>
-                 </select>
-             </div>
-             <div class="form-group">
-                <label>Superfici (mq):</label>
-                <input type="number" id="sup_calpestabile" placeholder="Superficie Calpestabile Appartamento" required step="0.01" min="1">
-                <input type="number" id="sup_autorimessa" placeholder="Autorimessa Esclusiva (opz.)" step="0.01" min="0" style="margin-top: 5px;">
-                <input type="number" id="sup_posto_auto_comune" placeholder="Posto Auto Comune (opz.)" step="0.01" min="0" style="margin-top: 5px;">
-                <input type="number" id="sup_balconi" placeholder="Balconi, Terrazze, Cantine (opz.)" step="0.01" min="0" style="margin-top: 5px;">
-                <input type="number" id="sup_scoperta" placeholder="Area Scoperta Esclusiva (opz.)" step="0.01" min="0" style="margin-top: 5px;">
-                <input type="number" id="sup_verde_cond" placeholder="Quota Verde Condominiale (opz.)" step="0.01" min="0" style="margin-top: 5px;">
-                 <p class="info">Inserire la superficie calpestabile e le eventuali pertinenze. Il calcolo applicherà le percentuali corrette (All. 3).</p>
-            </div>
-
-            <h2>Caratteristiche Immobile (Allegato 2)</h2>
-             <div class="form-group">
-                <label>Tipologia Edilizia:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="tipologia" value="casa" checked> Casa singola/bifamiliare/schiera (3 punti)</label>
-                    <label><input type="radio" name="tipologia" value="<=14"> Stabile fino a 14 alloggi (2 punti)</label>
-                    <label><input type="radio" name="tipologia" value=">14"> Stabile con più di 14 alloggi (1 punto)</label>
+                <div class="field">
+                    <label for="tipo_contratto">Tipo di Contratto</label>
+                    <select id="tipo_contratto" name="tipo_contratto">
+                        <option value="agevolato">Agevolato (3+2 / 4+2 / ecc.)</option>
+                        <option value="transitorio">Transitorio Ordinario (max 18 mesi)</option>
+                        <option value="studenti">Transitorio Studenti (6 mesi - 3 anni)</option>
+                    </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Anno Fabbricazione / Ristrutturazione Integrale:</label>
-                 <div class="radio-group">
-                    <label><input type="radio" name="anno_costruzione" value="0-15" checked> 0-15 anni (2 punti)</label>
-                    <label><input type="radio" name="anno_costruzione" value="16-35"> 16-35 anni (1 punto)</label>
-                    <label><input type="radio" name="anno_costruzione" value=">35"> Oltre 35 anni (0 punti)</label>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend>Superfici (mq)</legend>
+                <div class="field">
+                    <label for="sup_calpestabile">Superficie calpestabile appartamento</label>
+                    <input type="number" id="sup_calpestabile" placeholder="Es. 75" required step="0.01" min="1" inputmode="decimal" aria-describedby="err-calc">
                 </div>
-            </div>
-             <div class="form-group">
-                 <label>Accessori e Servizi Tecnici in Dotazione (max 12):</label>
-                 <div class="checkbox-group">
-                     <label><input type="checkbox" name="accessori" value="posto_auto_coperto"> a. Posto auto coperto/garage</label><br>
-                     <label><input type="checkbox" name="accessori" value="posto_auto_scoperto"> b. Posto auto scoperto esclusivo</label><br>
-                     <label><input type="checkbox" name="accessori" value="doppi_servizi"> c. Doppi servizi</label><br>
-                     <label><input type="checkbox" name="accessori" value="soffitta_cantina"> d. Soffitta o cantina</label><br>
-                     <label><input type="checkbox" name="accessori" value="condizionamento"> e. Impianto raffreddamento/condizionamento</label><br>
-                     <label><input type="checkbox" name="accessori" value="ascensore"> f. Ascensore</label><br>
-                     <label><input type="checkbox" name="accessori" value="elettrodomestici_a_plus"> g. Elettrodomestici A+ (se semi/arredato)</label><br>
-                     <label><input type="checkbox" name="accessori" value="sicurezza_antintrusione"> h. Sistema sicurezza/antintrusione (o porta blindata)</label><br>
-                     <label><input type="checkbox" name="accessori" value="cancello_elettrico"> i. Cancello o basculante elettrico</label><br>
-                     <label><input type="checkbox" name="accessori" value="videocitofono"> j. Videocitofono/predisp. internet</label><br>
-                     <label><input type="checkbox" name="accessori" value="terrazza_5mq"> k. Terrazza/e >= 5 mq complessivi</label><br>
-                     <label><input type="checkbox" name="accessori" value="doppi_vetri"> l. Doppi vetri o vetrocamera</label><br>
-                 </div>
-                  <p class="info">Selezionare le dotazioni presenti. Il punteggio varia da 0 (0 acc.) a 5 (10+ acc.).</p>
-             </div>
+                <div class="field">
+                    <label for="sup_autorimessa">Autorimessa esclusiva (opz.)</label>
+                    <input type="number" id="sup_autorimessa" placeholder="Es. 15" step="0.01" min="0" inputmode="decimal" aria-describedby="h-garage">
+                    <span class="hint" id="h-garage">Conteggiata al 50%.</span>
+                </div>
+                <div class="field">
+                    <label for="sup_posto_auto_comune">Posto auto comune (opz.)</label>
+                    <input type="number" id="sup_posto_auto_comune" placeholder="Es. 12" step="0.01" min="0" inputmode="decimal" aria-describedby="h-pauto">
+                    <span class="hint" id="h-pauto">Conteggiato al 20%.</span>
+                </div>
+                <div class="field">
+                    <label for="sup_balconi">Balconi, terrazze, cantine (opz.)</label>
+                    <input type="number" id="sup_balconi" placeholder="Es. 10" step="0.01" min="0" inputmode="decimal" aria-describedby="h-balconi">
+                    <span class="hint" id="h-balconi">Conteggiati al 25%.</span>
+                </div>
+                <div class="field">
+                    <label for="sup_scoperta">Area scoperta esclusiva (opz.)</label>
+                    <input type="number" id="sup_scoperta" placeholder="Es. 40" step="0.01" min="0" inputmode="decimal" aria-describedby="h-scoperta">
+                    <span class="hint" id="h-scoperta">Conteggiata al 15%, fino a un massimo pari alla superficie calpestabile.</span>
+                </div>
+                <div class="field">
+                    <label for="sup_verde_cond">Quota verde condominiale (opz.)</label>
+                    <input type="number" id="sup_verde_cond" placeholder="Es. 20" step="0.01" min="0" inputmode="decimal" aria-describedby="h-verde">
+                    <span class="hint" id="h-verde">Conteggiata al 10%. Il calcolo applica le percentuali corrette (All. 3).</span>
+                </div>
+            </fieldset>
 
-            <h2>Opzioni Aggiuntive</h2>
-             <div id="agevolato-options" class="form-group hidden">
-                 <label>Opzioni Contratto Agevolato:</label>
-                  <label for="durata_contratto">Durata Contrattuale Aggiuntiva (oltre 3 anni base):</label>
-                  <select id="durata_contratto" name="durata_contratto">
-                     <option value="0">Nessuna / 3 anni (0%)</option>
-                     <option value="1">4 anni (+2%)</option>
-                     <option value="2">5 anni (+3%)</option>
-                     <option value="3">6+ anni (+4%)</option>
-                 </select>
-             </div>
-            <div class="form-group">
-                 <label for="arredo">Livello Arredamento:</label>
-                 <select id="arredo" name="arredo">
-                     <option value="non_arredato">Non Arredato (0%)</option>
-                     <option value="semi_arredato">Semi Arredato (+5%)</option>
-                     <option value="completo_recente">Completo Nuovo/Recente (0-5 anni) (+15%)</option>
-                     <option value="completo_medio">Completo (6-10 anni) (+10%)</option>
-                     <option value="completo_vecchio">Completo (>11 anni) (+5%)</option>
-                 </select>
-                 <p class="info">Per Studenti: richiede dotazione minima specifica (vedi Accordo, Titolo C, p.8). L'aumento si applica se arredato.</p>
-             </div>
-             <div class="form-group">
-                <label>Immobile di Cat. A/1, A/8, A/9? (Art. 1 c.2a L.431/98)</label>
-                <div class="radio-group">
-                     <label><input type="radio" name="cat_lusso" value="no" checked> No (0%)</label>
-                     <label><input type="radio" name="cat_lusso" value="yes"> Sì (+2%)</label>
-                 </div>
-             </div>
+            <fieldset class="form-section">
+                <legend>Caratteristiche Immobile (Allegato 2)</legend>
+                <div class="field">
+                    <span class="choices-label" id="l-tipologia">Tipologia edilizia</span>
+                    <div class="choices" role="radiogroup" aria-labelledby="l-tipologia">
+                        <label class="choice"><input type="radio" name="tipologia" value="casa" checked> Casa singola/bifamiliare/schiera (3 punti)</label>
+                        <label class="choice"><input type="radio" name="tipologia" value="&lt;=14"> Stabile fino a 14 alloggi (2 punti)</label>
+                        <label class="choice"><input type="radio" name="tipologia" value="&gt;14"> Stabile con più di 14 alloggi (1 punto)</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <span class="choices-label" id="l-anno">Anno fabbricazione / ristrutturazione integrale</span>
+                    <div class="choices" role="radiogroup" aria-labelledby="l-anno">
+                        <label class="choice"><input type="radio" name="anno_costruzione" value="0-15" checked> 0-15 anni (2 punti)</label>
+                        <label class="choice"><input type="radio" name="anno_costruzione" value="16-35"> 16-35 anni (1 punto)</label>
+                        <label class="choice"><input type="radio" name="anno_costruzione" value="&gt;35"> Oltre 35 anni (0 punti)</label>
+                    </div>
+                </div>
+            </fieldset>
 
-            <!-- Buttons -->
-            <div class="button-container">
-                <button type="button" onclick="calcolaCanone()">Calcola Fascia Canone</button>
-                <button type="button" onclick="generaAttestazione()">Mostra Attestazione (per Copia/Incolla)</button>
-                <button type="button" class="download-btn" onclick="scaricaHTML()">Scarica Attestazione (.html)</button>
-            </div>
+            <fieldset class="form-section wide">
+                <legend>Accessori e Servizi Tecnici in Dotazione (max 12)</legend>
+                <div class="choices two-col">
+                        <label class="choice"><input type="checkbox" name="accessori" value="posto_auto_coperto"> a. Posto auto coperto/garage</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="posto_auto_scoperto"> b. Posto auto scoperto esclusivo</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="doppi_servizi"> c. Doppi servizi</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="soffitta_cantina"> d. Soffitta o cantina</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="condizionamento"> e. Impianto raffreddamento/condizionamento</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="ascensore"> f. Ascensore</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="elettrodomestici_a_plus"> g. Elettrodomestici A+ (se semi/arredato)</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="sicurezza_antintrusione"> h. Sistema sicurezza/antintrusione (o porta blindata)</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="cancello_elettrico"> i. Cancello o basculante elettrico</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="videocitofono"> j. Videocitofono/predisp. internet</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="terrazza_5mq"> k. Terrazza/e &gt;= 5 mq complessivi</label>
+                        <label class="choice"><input type="checkbox" name="accessori" value="doppi_vetri"> l. Doppi vetri o vetrocamera</label>
+                </div>
+                <span class="hint">Seleziona le dotazioni presenti. Il punteggio varia da 0 (0 accessori) a 5 (10 o più accessori).</span>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend>Opzioni Aggiuntive</legend>
+                <div id="agevolato-options" class="field hidden">
+                    <label for="durata_contratto">Durata contrattuale aggiuntiva (oltre 3 anni base)</label>
+                    <select id="durata_contratto" name="durata_contratto">
+                        <option value="0">Nessuna / 3 anni (0%)</option>
+                        <option value="1">4 anni (+2%)</option>
+                        <option value="2">5 anni (+3%)</option>
+                        <option value="3">6+ anni (+4%)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="arredo">Livello arredamento</label>
+                    <select id="arredo" name="arredo" aria-describedby="h-arredo">
+                        <option value="non_arredato">Non Arredato (0%)</option>
+                        <option value="semi_arredato">Semi Arredato (+5%)</option>
+                        <option value="completo_recente">Completo Nuovo/Recente (0-5 anni) (+15%)</option>
+                        <option value="completo_medio">Completo (6-10 anni) (+10%)</option>
+                        <option value="completo_vecchio">Completo (&gt;11 anni) (+5%)</option>
+                    </select>
+                    <span class="hint" id="h-arredo">Per Studenti: richiede dotazione minima specifica (vedi Accordo, Titolo C, p.8). L'aumento si applica se arredato.</span>
+                </div>
+                <div class="field">
+                    <span class="choices-label" id="l-lusso">Immobile di Cat. A/1, A/8, A/9? (Art. 1 c.2a L.431/98)</span>
+                    <div class="choices" role="radiogroup" aria-labelledby="l-lusso">
+                        <label class="choice"><input type="radio" name="cat_lusso" value="no" checked> No (0%)</label>
+                        <label class="choice"><input type="radio" name="cat_lusso" value="yes"> Sì (+2%)</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <p class="form-error" id="err-calc" role="alert" hidden></p>
+            <button type="button" id="btn-calc" class="btn btn-primary">Calcola Fascia Canone</button>
         </form>
 
         <!-- Risultati Calcolo -->
-        <div id="risultati" style="display: none;">
-           <!-- Results content remains the same -->
-            <h2>Risultati Calcolo Fascia Canone</h2>
-            <p><strong>Comune Selezionato:</strong> <span id="res-comune"></span></p>
-            <p><strong>Zona Territoriale:</strong> <span id="res-zona"></span> (<span id="res-pop"></span>)</p>
-            <p><strong>Superficie Utile Calcolata (mq):</strong> <span id="res-sup-utile"></span></p>
-            <p><strong>Coefficiente Area (x Superficie):</strong> <span id="res-coeff-area"></span></p>
-            <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p><strong>Punteggio Tipologia Edilizia:</strong> <span id="res-punti-tipo"></span> pt.</p>
-            <p><strong>Punteggio Anno Costruzione:</strong> <span id="res-punti-anno"></span> pt.</p>
-            <p><strong>Numero Accessori Selezionati:</strong> <span id="res-num-accessori"></span></p>
-            <p><strong>Punteggio Accessori:</strong> <span id="res-punti-accessori"></span> pt.</p>
-            <p><strong>PUNTEGGIO TOTALE:</strong> <span id="res-punti-totali"></span> pt.</p>
-            <p><strong>Categoria Risultante (Allegato 2):</strong> <span id="res-categoria" style="font-weight:bold;"></span></p>
-             <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p><strong>Fascia €/mq Base (da Tabella All. 1):</strong> Min: <span id="res-fascia-min"></span> €/mq - Max: <span id="res-fascia-max"></span> €/mq</p>
-            <p><strong>Canone Mensile Base Stimato:</strong> Min: <span id="res-canone-base-min"></span> € - Max: <span id="res-canone-base-max"></span> €</p>
-             <hr style="border:0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p><strong>Adeguamento Contratto Transitorio (>10k ab.):</strong> <span id="res-adeg-trans"></span>%</p>
-            <p><strong>Adeguamento Durata Contratto Agevolato:</strong> <span id="res-adeg-durata"></span>%</p>
-            <p><strong>Adeguamento Arredamento:</strong> <span id="res-adeg-arredo"></span>%</p>
-            <p><strong>Adeguamento Cat. Lusso (A/1, A/8, A/9):</strong> <span id="res-adeg-lusso"></span>%</p>
-            <p><strong>Fattore Moltiplicativo Totale Adeguamenti:</strong> <span id="res-adeg-totale"></span></p>
+        <section id="risultati" class="results-section" aria-labelledby="res-title" tabindex="-1">
+            <div class="highlight-box" aria-live="polite">
+                <p id="res-title">Canone mensile concordato finale stimato</p>
+                <span class="range"><span id="res-canone-finale-min"></span> € – <span id="res-canone-finale-max"></span> €</span>
+            </div>
+            <p class="sheet-note">Il canone effettivo dovrà essere concordato tra le parti all'interno di questa fascia finale.</p>
 
-            <p class="final-result">
-                CANONE MENSILE CONCORDATO FINALE STIMATO:
-                Min: <span id="res-canone-finale-min"></span> € - Max: <span id="res-canone-finale-max"></span> €
-            </p>
-            <p class="info" style="border:none; padding-top: 5px;">Il canone effettivo dovrà essere concordato tra le parti all'interno di questa fascia finale.</p>
-        </div>
+            <h2>Risultati Calcolo Fascia Canone</h2>
+
+            <h3>Zona e superficie</h3>
+            <dl class="detail-list">
+                <div class="row"><dt>Comune Selezionato</dt><dd><span id="res-comune"></span></dd></div>
+                <div class="row"><dt>Zona Territoriale</dt><dd><span id="res-zona"></span> (<span id="res-pop"></span>)</dd></div>
+                <div class="row"><dt>Superficie Utile Calcolata (mq)</dt><dd><span id="res-sup-utile"></span></dd></div>
+                <div class="row"><dt>Coefficiente Area (x Superficie)</dt><dd><span id="res-coeff-area"></span></dd></div>
+            </dl>
+
+            <h3>Punteggio (Allegato 2)</h3>
+            <dl class="detail-list">
+                <div class="row"><dt>Punteggio Tipologia Edilizia</dt><dd><span id="res-punti-tipo"></span> pt.</dd></div>
+                <div class="row"><dt>Punteggio Anno Costruzione</dt><dd><span id="res-punti-anno"></span> pt.</dd></div>
+                <div class="row"><dt>Numero Accessori Selezionati</dt><dd><span id="res-num-accessori"></span></dd></div>
+                <div class="row"><dt>Punteggio Accessori</dt><dd><span id="res-punti-accessori"></span> pt.</dd></div>
+                <div class="row strong"><dt>Punteggio Totale</dt><dd><span id="res-punti-totali"></span> pt.</dd></div>
+                <div class="row strong"><dt>Categoria Risultante (Allegato 2)</dt><dd><span id="res-categoria"></span></dd></div>
+            </dl>
+
+            <h3>Fascia di canone</h3>
+            <dl class="detail-list">
+                <div class="row"><dt>Fascia €/mq Base (da Tabella All. 1)</dt><dd>Min: <span id="res-fascia-min"></span> €/mq – Max: <span id="res-fascia-max"></span> €/mq</dd></div>
+                <div class="row"><dt>Canone Mensile Base Stimato</dt><dd>Min: <span id="res-canone-base-min"></span> € – Max: <span id="res-canone-base-max"></span> €</dd></div>
+            </dl>
+
+            <h3>Adeguamenti</h3>
+            <dl class="detail-list">
+                <div class="row"><dt>Adeguamento Contratto Transitorio (&gt;10k ab.)</dt><dd><span id="res-adeg-trans"></span>%</dd></div>
+                <div class="row"><dt>Adeguamento Durata Contratto Agevolato</dt><dd><span id="res-adeg-durata"></span>%</dd></div>
+                <div class="row"><dt>Adeguamento Arredamento</dt><dd><span id="res-adeg-arredo"></span>%</dd></div>
+                <div class="row"><dt>Adeguamento Cat. Lusso (A/1, A/8, A/9)</dt><dd><span id="res-adeg-lusso"></span>%</dd></div>
+                <div class="row"><dt>Fattore Moltiplicativo Totale Adeguamenti</dt><dd><span id="res-adeg-totale"></span></dd></div>
+            </dl>
+
+            <div class="result-actions">
+                <button type="button" id="btn-attestazione" class="btn btn-outline">Mostra Attestazione (per Copia/Incolla)</button>
+                <button type="button" id="btn-download" class="btn btn-primary">Scarica Attestazione (.html)</button>
+            </div>
+        </section>
 
         <!-- Word Output Section for Copy/Paste -->
         <div id="word-output" style="display:none;">
@@ -510,8 +443,6 @@
              </div>
             <p class="footer-note">Questa attestazione generata automaticamente riporta i valori calcolati dallo strumento web. Le parti vuote sono da compilare manualmente.</p>
         </div>
-
-
     </div>
 
     <script>
@@ -638,7 +569,7 @@
                 "<10k": { inferiore: { min: 2.5, max: 4.5 }, medio: { min: 3.5, max: 5.5 }, superiore: { min: 4.5, max: 7.0 } },
                 ">10k": { inferiore: { min: 2.5, max: 4.5 }, medio: { min: 3.5, max: 5.5 }, superiore: { min: 4.5, max: 7.0 } }, // Same per table
                 "THIENE_CENTRO": { inferiore: {min: 3.5, max: 5.5}, medio: {min: 4.5, max: 7.0}, superiore: {min: 5.0, max: 8.0}},
-                "THIENE_PERIF": { inferiore: {min: 2.5, max: 4.5}, medio: {min: 3.5, max: 5.5}, superiore: {min: 4.5, max: 7.0}}
+                "THIENE_PERIFERIA": { inferiore: {min: 2.5, max: 4.5}, medio: {min: 3.5, max: 5.5}, superiore: {min: 4.5, max: 7.0}}
             },
              ARANCIONE: {
                 "<10k": { inferiore: { min: 3.0, max: 5.5 }, medio: { min: 3.5, max: 7.0 }, superiore: { min: 4.0, max: 8.0 } },
@@ -647,6 +578,8 @@
             VERDE: { "<10k": { inferiore: { min: 2.5, max: 4.0 }, medio: { min: 3.0, max: 5.0 }, superiore: { min: 3.5, max: 6.0 } } },
             BIANCA: { "<10k": { inferiore: { min: 3.5, max: 5.5 }, medio: { min: 4.5, max: 7.0 }, superiore: { min: 5.0, max: 8.0 } } }
         };
+
+        const resultsBox = () => document.getElementById('risultati');
 
         // Global variable to store results
         let lastCalculationResults = null;
@@ -657,6 +590,10 @@
         // getCategoria, displayResults, calcolaCanone, generaAttestazione
         // ... (All these JS functions remain the same as previous version) ...
         window.onload = () => {
+            document.getElementById('btn-calc').addEventListener('click', calcolaCanone);
+            document.getElementById('btn-attestazione').addEventListener('click', generaAttestazione);
+            document.getElementById('btn-download').addEventListener('click', scaricaHTML);
+            document.getElementById('sup_calpestabile').addEventListener('input', () => showError(''));
             const selectComune = document.getElementById('comune');
             comuniData.sort((a, b) => a.comune.localeCompare(b.comune));
             comuniData.forEach(item => {
@@ -774,36 +711,46 @@
              document.getElementById('res-comune').textContent = results.comuneNome + (results.thienePos ? ` (${results.thienePos})` : '');
              document.getElementById('res-zona').textContent = results.zona;
              document.getElementById('res-pop').textContent = results.popCat;
-             document.getElementById('res-sup-utile').textContent = results.superficieDetails.totale.toFixed(2);
-             document.getElementById('res-coeff-area').textContent = results.coeffArea.toFixed(2);
+             document.getElementById('res-sup-utile').textContent = n2(results.superficieDetails.totale);
+             document.getElementById('res-coeff-area').textContent = n2(results.coeffArea);
              document.getElementById('res-punti-tipo').textContent = results.puntiTipo;
              document.getElementById('res-punti-anno').textContent = results.puntiAnno;
              document.getElementById('res-num-accessori').textContent = results.numAccessori;
              document.getElementById('res-punti-accessori').textContent = results.puntiAccessori;
              document.getElementById('res-punti-totali').textContent = results.puntiTotali;
              document.getElementById('res-categoria').textContent = results.categoria.toUpperCase();
-             document.getElementById('res-fascia-min').textContent = results.fasciaMinMq.toFixed(2);
-             document.getElementById('res-fascia-max').textContent = results.fasciaMaxMq.toFixed(2);
-             document.getElementById('res-canone-base-min').textContent = results.baseMinMensile.toFixed(2);
-             document.getElementById('res-canone-base-max').textContent = results.baseMaxMensile.toFixed(2);
+             document.getElementById('res-fascia-min').textContent = n2(results.fasciaMinMq);
+             document.getElementById('res-fascia-max').textContent = n2(results.fasciaMaxMq);
+             document.getElementById('res-canone-base-min').textContent = n2(results.baseMinMensile);
+             document.getElementById('res-canone-base-max').textContent = n2(results.baseMaxMensile);
              document.getElementById('res-adeg-trans').textContent = results.adegTrans.toFixed(0);
              document.getElementById('res-adeg-durata').textContent = results.adegDurata.toFixed(0);
              document.getElementById('res-adeg-arredo').textContent = results.adegArredo.toFixed(0);
              document.getElementById('res-adeg-lusso').textContent = results.adegLusso.toFixed(0);
-             document.getElementById('res-adeg-totale').textContent = results.adjustmentFactor.toFixed(3);
-             document.getElementById('res-canone-finale-min').textContent = results.finaleMinMensile.toFixed(2);
-             document.getElementById('res-canone-finale-max').textContent = results.finaleMaxMensile.toFixed(2);
+             document.getElementById('res-adeg-totale').textContent = results.adjustmentFactor.toLocaleString('it-IT', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+             document.getElementById('res-canone-finale-min').textContent = n2(results.finaleMinMensile);
+             document.getElementById('res-canone-finale-max').textContent = n2(results.finaleMaxMensile);
         }
+
+        const errBox = document.getElementById('err-calc');
+        function showError(msg, fieldId) {
+            errBox.textContent = msg;
+            errBox.hidden = !msg;
+            ['comune', 'sup_calpestabile'].forEach(id => document.getElementById(id).setAttribute('aria-invalid', (msg && id === fieldId) ? 'true' : 'false'));
+            if (msg && fieldId) document.getElementById(fieldId).focus();
+        }
+        const n2 = (v) => v.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         function calcolaCanone() {
             lastCalculationResults = null; // Reset previous results
+            showError('');
             try {
                 const comuneNome = document.getElementById('comune').value;
-                if (!comuneNome) throw new Error("Seleziona un comune.");
+                if (!comuneNome) { showError("Seleziona un comune.", 'comune'); resultsBox().classList.remove('visible'); return; }
 
                 const superficieDetails = calcolaSuperficieUtile(true); // Get detailed surface info
                 const sup_calpestabile = superficieDetails.sup_calpestabile;
-                 if (sup_calpestabile <= 0) throw new Error("Inserisci una superficie calpestabile valida.");
+                 if (sup_calpestabile <= 0) { showError("Inserisci una superficie calpestabile valida.", 'sup_calpestabile'); resultsBox().classList.remove('visible'); return; }
 
                  const superficieUtile = superficieDetails.totale;
                  const tipo_contratto = document.getElementById('tipo_contratto').value;
@@ -902,22 +849,24 @@
                  // --- Display Results ---
                  displayResults(lastCalculationResults); // Call separate display function
 
-                 document.getElementById('risultati').style.display = 'block';
+                 const box = resultsBox();
+                 box.classList.remove('visible');
+                 void box.offsetWidth; // restart the reveal animation on recalculation
+                 box.classList.add('visible');
                  document.getElementById('word-output').style.display = 'none'; // Hide word output on new calculation
+                 box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 box.focus({ preventScroll: true });
 
              } catch (error) {
                  console.error("Errore nel calcolo:", error);
-                 alert("Si è verificato un errore durante il calcolo: " + error.message);
-                 document.getElementById('risultati').style.display = 'none';
+                 showError("Si è verificato un errore durante il calcolo: " + error.message);
+                 resultsBox().classList.remove('visible');
                  document.getElementById('word-output').style.display = 'none';
              }
         }
 
         function generaAttestazione() {
-            if (!lastCalculationResults) {
-                alert("Esegui prima il calcolo della fascia canone.");
-                return;
-            }
+            if (!lastCalculationResults) return;
 
             const r = lastCalculationResults; // Shorthand
 
@@ -963,10 +912,7 @@
 
         // --- NEW FUNCTION for HTML Download ---
         function scaricaHTML() {
-             if (!lastCalculationResults) {
-                alert("Esegui prima il calcolo della fascia canone.");
-                return;
-            }
+             if (!lastCalculationResults) return;
 
             try {
                 const r = lastCalculationResults;
@@ -1077,11 +1023,28 @@
 
             } catch (error) {
                 console.error("Errore nella generazione HTML:", error);
-                alert("Si è verificato un errore durante la generazione del file HTML: " + error.message);
+                showError("Si è verificato un errore durante la generazione del file HTML: " + error.message);
             }
         }
 
-
+        // --- Embedded height ---
+        // When the page lives in an iframe (giuliatobattistin.it), tell the host how tall the content is
+        // so the iframe can be resized and never needs an inner scrollbar.
+        (function () {
+            if (window.parent === window) return;
+            let last = 0;
+            const send = () => {
+                const height = Math.ceil(document.body.getBoundingClientRect().height);
+                if (height && height !== last) {
+                    last = height;
+                    window.parent.postMessage({ source: 'gb-calcolatore', type: 'height', height }, '*');
+                }
+            };
+            if ('ResizeObserver' in window) new ResizeObserver(send).observe(document.body);
+            window.addEventListener('load', send);
+            send();
+        })();
+    
     </script>
 
 </body>
